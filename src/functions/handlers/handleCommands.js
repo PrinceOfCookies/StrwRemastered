@@ -29,6 +29,8 @@ module.exports = (client) => {
           console.error("No color provided for command: " + name);
         }
 
+        console.log(color("TEST"))
+
         commands.set(command.data.name, properties);
         cooldowns.set(command.data.name, new Map());
         commandArray.push(command.data.toJSON());

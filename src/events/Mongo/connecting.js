@@ -12,5 +12,5 @@ module.exports = {
   execute() {
     console.log(chalk.cyan("[Database Status]: Connecting..."));
   },
-  color: "lightGreen"
+  color: chalk.greenBright,
 };

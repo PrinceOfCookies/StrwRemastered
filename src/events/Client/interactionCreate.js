@@ -18,7 +18,7 @@ module.exports = {
       const command = commands.get(commandName);
       let Profile = await User.findOne({ userID: user.id });
 
-      if (!Profile) {
+      if (!Profile) { 
         Profile = new User({
           _id: mongoose.Types.ObjectId(),
           userID: user.id,
