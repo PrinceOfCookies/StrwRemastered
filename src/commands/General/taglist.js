@@ -4,7 +4,7 @@ const chalk = require("chalk");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("reemtaglist")
+    .setName("reemtaglist") // Reem is to seperate it from the other botban command (Old version, currently running)
     .setDescription("Command to list the tags"),
 
   async execute(interaction) {
@@ -31,9 +31,9 @@ module.exports = {
           dat.createdBy +
           ">\n";
       }
-      await TagList.setDescription(description);
+      TagList.setDescription(description);
 
-      await interaction.reply({
+      return await interaction.reply({
         embeds: [TagList],
       });
     });

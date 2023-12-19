@@ -7,7 +7,7 @@ const chalk = require("chalk");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("reemsetbal")
+    .setName("reemsetbal") // Reem is to seperate it from the other botban command (Old version, currently running)
     .setDescription("Set a users balance.")
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
     .addIntegerOption((option) =>
@@ -19,7 +19,6 @@ module.exports = {
     .addUserOption((option) =>
       option.setName("user").setDescription("User to set balance for.")
     ),
-
   async execute(interaction, client) {
     const { options } = interaction;
 
@@ -28,7 +27,7 @@ module.exports = {
 
     const Profile = await client.checkProfile(user);
 
-    const embed = new EmbedBuilder().setColor(0x5fb041);
+    const embed = new EmbedBuilder().setColor("#5FB041");
 
     await Profile.updateOne({ balance: balance });
 
@@ -39,5 +38,5 @@ module.exports = {
     interaction.reply({ embeds: [embed], ephemeral: true });
   },
   color: chalk.hex("#DEADED"),
-  allowRoles: ["1137095530669932665"],
+  allowRoles: ["1137095530669932665"], // Strawhat OW Role
 };

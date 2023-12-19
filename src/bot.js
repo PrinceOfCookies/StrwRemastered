@@ -14,6 +14,10 @@ mongoose.set("strictQuery", true);
  * Represents a Discord client.
  * @typedef {Object} Client
  */
+/**
+ * Represents the Discord client used by the bot.
+ * @type {Client}
+ */
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,

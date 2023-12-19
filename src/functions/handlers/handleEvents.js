@@ -7,6 +7,10 @@ module.exports = (client) => {
     const eventFolders = readdirSync("./src/events");
 
     for (const folder of eventFolders) {
+      /**
+       * Array of event file names.
+       * @type {string[]}
+       */
       const eventFiles = readdirSync(`./src/events/${folder}`).filter((file) =>
         file.endsWith(".js")
       );
@@ -22,7 +26,7 @@ module.exports = (client) => {
             let name = event.name;
 
             if (color == undefined) {
-              color = chalk.white
+              color = chalk.white;
               console.error("No color provided for event: " + name);
             }
 

@@ -6,10 +6,12 @@ const {
 const fs = require("fs");
 const chalk = require("chalk");
 
+// COMMAND IS CURRENT DISABLED
+
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("reemvidpoll")
-    .setDescription("Starts a poll for the video")
+    .setName("reemvidpoll") // Reem is to seperate it from the other botban command (Old version, currently running)
+    .setDescription("[DISABLED] Starts a poll for the video")
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
 
   async execute(interaction, client) {
@@ -57,5 +59,5 @@ module.exports = {
     // });
   },
   color: chalk.hex("#DEADED"),
-  allowRoles: ["1137095530669932665"],
+  allowRoles: ["1137095530669932665"], // Strawhat OW Role
 };

@@ -1,16 +1,14 @@
-/**
- * @file guildMemberAdd.js
- * @typedef {Object} Event
- * @property {string} name - The name of the event.
- * @property {function} execute - The function that executes when the event is triggered.
- * @property {string} color - The color of the event.
- */
-
 const { mongoose } = require("mongoose");
 const User = require("../../schemas/users.js");
+const chalk = require("chalk");
 
 module.exports = {
   name: "guildMemberAdd",
+  /**
+   * Executes the guildMemberAdd event.
+   * @param {GuildMember} member - The member who joined the guild.
+   * @returns {Promise<void>}
+   */
   async execute(member) {
     // Get the guild ID
     const guild = member.guild;
@@ -43,5 +41,5 @@ module.exports = {
     // Add this role to the user 1120733358759088231
     member.roles.add("1120733358759088231");
   },
-  color: "lightGreen",
+  color: chalk.greenBright,
 };

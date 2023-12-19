@@ -3,6 +3,10 @@ const forums = require(`../../schemas/forums`);
 const { FFAPIL } = process.env;
 const { red } = require("chalk");
 
+/**
+ * Returns the current date and time in the format "MM/DD/YYYY HH:MM".
+ * @returns {string} The current date and time.
+ */
 const getTime = () => {
   let date = new Date();
   let month = date.getMonth() + 1;
