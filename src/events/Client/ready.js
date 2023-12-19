@@ -11,8 +11,6 @@ module.exports = {
   name: "ready",
   once: true,
   async execute(client) {
-    console.log(`${client.user.tag} is logged in`);
-
     // Get how many guilds the bot is in and their names
     const guilds = client.guilds.cache.map((guild) => guild.name);
     console.log(`Guilds: ${guilds.join(", ")}`);

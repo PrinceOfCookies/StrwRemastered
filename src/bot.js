@@ -70,20 +70,10 @@ for (const folder of funcFolders) {
   }
 }
 
-
-let DBTOKEN;
-
-// check if the type of MONGOTOKEN is not a string
-if (typeof MONGOTOKEN != "string") {
-  DBTOKEN = MONGOTOKEN.toString();
-}
-
-
 client.handleEvents().then(() => {
   client.handleCommands();
 });
 
-const sm = Math.floor(Date.now());
 connect(MONGOTOKEN).then(() => {
   client.login(TOKEN);
 });
