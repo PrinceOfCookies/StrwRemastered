@@ -27,10 +27,9 @@ module.exports = {
     });
 
     if (TagSchem) {
-      interaction.reply({
+      return interaction.reply({
         content: `A tag with the name ${tag_name} already exists, it was made by <@${TagSchem.createdBy}> on!`,
       });
-      return;
     } else {
       TagSchem = await new TagSchema({
         _id: mongoose.Types.ObjectId(),
@@ -40,7 +39,7 @@ module.exports = {
       });
     }
 
-    interaction.reply({
+    await interaction.reply({
       content: `Tag ${tag_name} successfully created!`,
     });
 
@@ -48,8 +47,8 @@ module.exports = {
   },
   color: chalk.hex("#DEADED"),
   allowRoles: [
-    "1120733358759088236",
-    "1120733358784266302",
-    "1137095530669932665",
+    "1120733358759088236", // Friends role
+    "1120733358784266302", // GA role
+    "1137095530669932665", // Strawhat OW role
   ],
 };

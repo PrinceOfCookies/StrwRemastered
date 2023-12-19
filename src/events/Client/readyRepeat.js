@@ -7,25 +7,32 @@ let {
   ComponentType,
 } = require("discord.js");
 
+// WIP Event
 module.exports = {
   name: "ready",
+  /**
+   * Executes the client ready repeat function.
+   * 
+   * @param {Client} client - The Discord client.
+   * @returns {Promise<void>} - A promise that resolves when the execution is complete.
+   */
   async execute(client) {
     // Run client.checkChannel(UCEG5VK8Qi_aiqgGypC) every 5 minutes and check channel UCY4tt2c2QaqlJpA-x0PmPYg
-    await setInterval(async () => {
-      let newVideo = await client.checkChannel("UCEG5VK8Qi_aiqgGypC-fEWw");
-      if (!newVideo)
-        newVideo = await client.checkChannel("UCY4tt2c2QaqlJpA-x0PmPYg");
-      if (!newVideo) return;
-      let IDD = newVideo;
+    // await setInterval(async () => {
+    //   let newVideo = await client.checkChannel("UCEG5VK8Qi_aiqgGypC-fEWw");
+    //   if (!newVideo)
+    //     newVideo = await client.checkChannel("UCY4tt2c2QaqlJpA-x0PmPYg");
+    //   if (!newVideo) return;
+    //   let IDD = newVideo;
 
-      let video = await vids.findOne({ ID: IDD });
-      if (!video) {
-        console.log(newVideo);
-        return console.error("Video not found");
-      }
-      if (video.used) return console.error("Video already used");
-      switch (video.channelID) {
-        case "UCEG5VK8Qi_aiqgGypC-fEWw":
+    //   let video = await vids.findOne({ ID: IDD });
+    //   if (!video) {
+    //     console.log(newVideo);
+    //     return console.error("Video not found");
+    //   }
+    //   if (video.used) return console.error("Video already used");
+    //   switch (video.channelID) {
+    //     case "UCEG5VK8Qi_aiqgGypC-fEWw":
           // vids.updateOne({ ID: IDD }, { used: true });
           // console.log(`Set \`used\` to true for ${video.ID}`)
           // let staffchatchannel = await client.channels.cache.get(
@@ -84,14 +91,14 @@ module.exports = {
           //       time: "600000",
           //     });
 
-          break;
-        case "UCY4tt2c2QaqlJpA-x0PmPYg":
-          vids.updateOne({ ID: IDD }, { used: true });
-          break;
-      }
+      //     break;
+      //   case "UCY4tt2c2QaqlJpA-x0PmPYg":
+      //     vids.updateOne({ ID: IDD }, { used: true });
+      //     break;
+      // }
       // Get the videos channelID 1120733359786709008 1120733359786709008
-    }, 30000);
+    // }, 30000);
     //300000;
   },
-  color: "lightGreen",
+  color: chalk.greenBright,
 };

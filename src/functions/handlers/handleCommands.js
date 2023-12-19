@@ -1,8 +1,3 @@
-/**
- * Handles loading and registering commands for the Discord bot.
- * @param {Object} client - The Discord bot client.
- */
-// Use CommonJS
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const { readdirSync } = require("fs");
@@ -15,6 +10,10 @@ module.exports = (client) => {
 
     for (const folder of commandFolders) {
       let s = Math.floor(Date.now());
+      /**
+       * Array of command file names.
+       * @type {string[]}
+       */
       const commandFiles = readdirSync(`./src/commands/${folder}`).filter(
         (file) => file.endsWith(".js")
       );
@@ -28,8 +27,6 @@ module.exports = (client) => {
           color = white;
           console.error("No color provided for command: " + name);
         }
-
-        console.log(color("TEST"))
 
         commands.set(command.data.name, properties);
         cooldowns.set(command.data.name, new Map());

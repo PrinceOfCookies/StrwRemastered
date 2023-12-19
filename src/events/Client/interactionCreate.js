@@ -1,16 +1,17 @@
-/**
- * Represents an error event for the database connection.
- * @typedef {Object} ErrorEvent
- * @property {string} name - The name of the event.
- * @property {function} execute - The function that executes when the event is triggered.
- */
-
 const User = require("../../schemas/users.js");
 const mongoose = require("mongoose");
 const chalk = require("chalk");
 
 module.exports = {
   name: "interactionCreate",
+  /**
+   * Executes the interaction command or button event.
+   *
+   * @param {Interaction} interaction - The interaction object.
+   * @param {Client} client - The Discord client.
+   * @returns {Promise<void>}
+   */
+
   async execute(interaction, client) {
     if (interaction.isChatInputCommand()) {
       const { commands } = client;
@@ -18,7 +19,7 @@ module.exports = {
       const command = commands.get(commandName);
       let Profile = await User.findOne({ userID: user.id });
 
-      if (!Profile) { 
+      if (!Profile) {
         Profile = new User({
           _id: mongoose.Types.ObjectId(),
           userID: user.id,
