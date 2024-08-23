@@ -8,7 +8,7 @@ module.exports = (client) => {
     let first = await client.color(bColor, "[");
     let message = chalk.green(messageText);
     let second = await client.color(bColor, "] ");
-    let name = await client.color(color, name);
+    name = await client.color(color, name);
     let third = await client.color(bColor, " loaded in");
     let fourth = chalk.yellow(`${time}ms`);
 
