@@ -10,14 +10,7 @@ const {
 } = require("discord.js");
 const { readdirSync } = require("fs");
 mongoose.set("strictQuery", true);
-/**
- * Represents a Discord client.
- * @typedef {Object} Client
- */
-/**
- * Represents the Discord client used by the bot.
- * @type {Client}
- */
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -35,7 +28,7 @@ const client = new Client({
         name: "& Writing",
         type: ActivityType.Watching,
         state: "📝 logs",
-        url: "https://strw.princeofcookies.codes/logs",
+        url: "https://strw.club/",
       },
     ],
     status: "online",
