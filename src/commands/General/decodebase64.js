@@ -3,7 +3,7 @@ const chalk = require("chalk");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("reemdecodebase64") // Reem is to seperate it from the other botban command (Old version, currently running)
+    .setName("decodebase64") // Reem is to seperate it from the other botban command (Old version, currently running)
     .setDescription("Decode base64")
     .addStringOption((option) =>
       option.setName("string").setDescription("The string to decode")

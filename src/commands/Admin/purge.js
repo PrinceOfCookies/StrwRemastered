@@ -7,7 +7,7 @@ const chalk = require("chalk");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("reempurge") // Reem is to seperate it from the other botban command (Old version, currently running)
+    .setName("purge") // Reem is to seperate it from the other botban command (Old version, currently running)
     .setDescription("Clear a specific amount of messages from a channel.")
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
     .addIntegerOption((option) =>

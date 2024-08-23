@@ -7,7 +7,7 @@ const chalk = require("chalk");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("reemsetbal") // Reem is to seperate it from the other botban command (Old version, currently running)
+    .setName("setbal") // Reem is to seperate it from the other botban command (Old version, currently running)
     .setDescription("Set a users balance.")
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
     .addIntegerOption((option) =>

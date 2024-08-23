@@ -5,7 +5,7 @@ const chalk = require("chalk");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("reemtagcreate")
+    .setName("tagcreate")
     .setDescription("Command to Create a tag")
     .addStringOption((option) =>
       option.setName("tagname").setDescription("Name Of Tag").setRequired(true)

@@ -4,7 +4,7 @@ const { default: axios } = require("axios");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("reemmcstatus") // Reem is to seperate it from the other botban command (Old version, currently running)
+    .setName("mcstatus") // Reem is to seperate it from the other botban command (Old version, currently running)
     .setDescription("Check on the status of a minecraft server by the IP")
     .addStringOption((option) =>
       option

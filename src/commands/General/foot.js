@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require("discord.js");
 const chalk = require("chalk");
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("reemfoot") // Reem is to seperate it from the other botban command (Old version, currently running)
+    .setName("foot") // Reem is to seperate it from the other botban command (Old version, currently running)
     .setDescription("Foot someone"),
   async execute(interaction) {
     interaction.channel.messages.fetch({ limit: 1 }).then((messages) => {

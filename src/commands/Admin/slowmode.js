@@ -3,7 +3,7 @@ const chalk = require("chalk");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("reemslowmode") // Reem is to seperate it from the other botban command (Old version, currently running)
+    .setName("slowmode") // Reem is to seperate it from the other botban command (Old version, currently running)
     .setDescription("Sets slowmode")
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
     .addIntegerOption((option) =>

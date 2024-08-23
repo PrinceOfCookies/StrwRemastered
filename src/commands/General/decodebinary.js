@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require("discord.js");
 const chalk = require("chalk");
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("reemdecodebin") // Reem is to seperate it from the other botban command (Old version, currently running)
+    .setName("decodebin") // Reem is to seperate it from the other botban command (Old version, currently running)
     .setDescription("Decode text to binary")
     .addStringOption((option) =>
       option

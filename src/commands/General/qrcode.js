@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require("discord.js");
 const chalk = require("chalk");
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("reemqrcode") // Reem is to seperate it from the other botban command (Old version, currently running)
+    .setName("qrcode") // Reem is to seperate it from the other botban command (Old version, currently running)
     .setDescription("QRCode creation command")
     .addStringOption((option) =>
       option
