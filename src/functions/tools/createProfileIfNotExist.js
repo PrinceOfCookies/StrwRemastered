@@ -1,4 +1,4 @@
-const User = require('../../schemas/user.js');
+const User = require('../../schemas/users.js');
 const mongoose = require('mongoose');
 
 module.exports = (client) => {
