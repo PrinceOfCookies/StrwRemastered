@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const { TOKEN, MONGOTOKEN } = process.env;
+let { TOKEN, MONGOTOKEN } = process.env;
 const { connect, mongoose } = require("mongoose");
 const {
   Client,
