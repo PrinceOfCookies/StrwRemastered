@@ -1,7 +1,7 @@
 const chalk = require("chalk");
 
 module.exports = (client) => {
-  client.fastLog = async (messageText, color, start) => {
+  client.fastLog = async (messageText, color, name, start) => {
     const time = Date.now() - start;
     const bColor = "#b3b3b3";
 

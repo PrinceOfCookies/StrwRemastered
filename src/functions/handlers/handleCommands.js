@@ -29,7 +29,7 @@ module.exports = (client) => {
         cooldowns.set(command.data.name, new Map());
         commandArray.push(command.data.toJSON());
 
-        await client.fastLog(`${folder} Command`, name, start)
+        await client.fastLog(`${folder} Command`, color, name, start)
       }
     }
 

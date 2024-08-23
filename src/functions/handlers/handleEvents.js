@@ -28,11 +28,11 @@ module.exports = (client) => {
             if (color === "lightGreen") color = lightGreen;
             if (event.once) {
               client.once(name, (...args) => event.execute(...args, client));
-              return await client.fastLog(`${folder} Event`, name, start);
+              return await client.fastLog(`${folder} Event`, color, name, start);
             }
 
             client.on(name, (...args) => event.execute(...args, client));
-            await client.fastLog(`${folder} Event`, name, start);
+            await client.fastLog(`${folder} Event`, color, name, start);
           }
           break;
         case "Mongo":
@@ -48,11 +48,11 @@ module.exports = (client) => {
               connection.once(name, (...args) =>
                 event.execute(...args, client)
               );
-              return await client.fastLog(`${folder} Event`, name, start);
+              return await client.fastLog(`${folder} Event`, color, name, start);
             }
 
             connection.on(name, (...args) => event.execute(...args, client));
-            await client.fastLog(`${folder} Event`, name, start);
+            await client.fastLog(`${folder} Event`, color, name, start);
           }
           break;
 
