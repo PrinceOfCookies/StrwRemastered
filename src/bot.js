@@ -71,6 +71,10 @@ client.handleEvents().then(() => {
   client.handleCommands();
 });
 
+// Just to make sure both are 100% strings
+MONGOTOKEN = toString(MONGOTOKEN);
+TOKEN = toString(TOKEN);
+
 connect(MONGOTOKEN).then(() => {
   client.login(TOKEN);
 });
