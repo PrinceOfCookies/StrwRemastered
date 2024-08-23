@@ -20,6 +20,7 @@
     "moment": "^2.29.4",
     "moment-duration-format": "^2.3.2",
     "mongoose": "^6.10.5",
+    "node-fetch": "^3.3.2",
     "os": "^0.1.2",
     "rss-parser": "^3.13.0"
   }

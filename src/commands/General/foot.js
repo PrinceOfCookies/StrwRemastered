@@ -21,3 +21,31 @@ module.exports = {
   },
   color: chalk.hex("#DEADED"),
 };
+
+
+const { SlashCommandBuilder } = require("discord.js");
+const chalk = require("chalk");
+module.exports = {
+  data: new SlashCommandBuilder()
+    .setName("monkey")
+    .setDescription("Monkey react someone"),
+  async execute(interaction) {
+    interaction.channel.messages.fetch({ limit: 1 }).then((messages) => {
+      messages.first().react("🐒");
+      messages.first().react("⬅");
+      // Spell out monkey in reactions
+      messages.first().react("🇲");
+      messages.first().react("🇴");
+      messages.first().react("🇳");
+      messages.first().react("🇰");
+      messages.first().react("🇪");
+      messages.first().react("🇾");
+    });
+
+    await interaction.reply({
+      content: "They've been monkey'd! 🐒",
+      ephemeral: true,
+    });
+  },
+  color: chalk.hex("#DEADED"),
+};

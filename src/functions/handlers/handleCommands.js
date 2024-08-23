@@ -9,21 +9,18 @@ module.exports = (client) => {
     const commandFolders = readdirSync("./src/commands");
 
     for (const folder of commandFolders) {
-      let s = Math.floor(Date.now());
-      /**
-       * Array of command file names.
-       * @type {string[]}
-       */
+      let start = Math.floor(Date.now());
       const commandFiles = readdirSync(`./src/commands/${folder}`).filter(
         (file) => file.endsWith(".js")
       );
+
       for (const file of commandFiles) {
         const command = require(`../../commands/${folder}/${file}`);
         const properties = { folder, ...command };
         let name = command.data.name;
         let color = command.color;
 
-        if (color == undefined) {
+        if (!color) {
           color = white;
           console.error("No color provided for command: " + name);
         }
@@ -32,15 +29,7 @@ module.exports = (client) => {
         cooldowns.set(command.data.name, new Map());
         commandArray.push(command.data.toJSON());
 
-        console.log(
-          `${await client.color("#b3b3b3", "[")}${green(
-            `${folder} Command`
-          )}${await client.color("#b3b3b3", "]")} ${color(
-            name
-          )} ${await client.color("#b3b3b3", "loaded in")} ${yellow(
-            Date.now() - s + "ms"
-          )}`
-        );
+        await client.fastLog(`${folder} Command`, name, start)
       }
     }
 
@@ -49,14 +38,14 @@ module.exports = (client) => {
 
     try {
       console.log(blue("Started refreshing application (/) commands."));
-      const s = Math.floor(Date.now());
+      const start = Math.floor(Date.now());
       await rest.put(Routes.applicationCommands(clientID), {
         body: commandArray,
       });
-      const e = Math.floor(Date.now());
+      const end = Math.floor(Date.now());
       console.log(
         blue("Successfully reloaded application (/) commands in ") +
-          yellow(e - s + "ms")
+          yellow(end - start + "ms")
       );
     } catch (er) {
       console.error(er);

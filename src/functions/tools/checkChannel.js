@@ -26,21 +26,7 @@ module.exports = async (client) => {
 
     if (!video) {
       console.log(`Video doesnt exist in database. Adding: ${id}`);
-      /**
-       * Represents a new video.
-       * @typedef {Object} NewVideo
-       * @property {string} _id - The unique identifier of the video.
-       * @property {string} channelID - The ID of the channel the video belongs to.
-       * @property {string} ID - The ID of the video.
-       * @property {string} title - The title of the video.
-       * @property {string} author - The author of the video.
-       * @property {string} link - The link to the video.
-       * @property {string} thumbnail - The URL of the video's thumbnail image.
-       * @property {string} channelURL - The URL of the channel.
-       * @property {boolean} used - Indicates if the video has been used.
-       * @property {Array} noVote - An array of votes against the video.
-       * @property {Array} yesVote - An array of votes for the video.
-       */
+
       const newVideo = new vids({
         _id: mongoose.Types.ObjectId(),
         channelID: channelID,

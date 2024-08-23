@@ -1,42 +1,13 @@
-const User = require("../../schemas/users.js");
-const mongoose = require("mongoose");
 const chalk = require("chalk");
 
 module.exports = {
   name: "interactionCreate",
-  /**
-   * Executes the interaction command or button event.
-   *
-   * @param {Interaction} interaction - The interaction object.
-   * @param {Client} client - The Discord client.
-   * @returns {Promise<void>}
-   */
-
   async execute(interaction, client) {
     if (interaction.isChatInputCommand()) {
       const { commands } = client;
       const { commandName, user } = interaction;
       const command = commands.get(commandName);
-      let Profile = await User.findOne({ userID: user.id });
-
-      if (!Profile) {
-        Profile = new User({
-          _id: mongoose.Types.ObjectId(),
-          userID: user.id,
-          createdAt: Date.now(),
-          botBanned: false,
-          balance: 25,
-          hp: 100,
-          xp: 0,
-          level: 0,
-          inventory: [],
-          kills: [],
-          deaths: [],
-          commandsRan: {},
-          vidpollvotes: {},
-        });
-        await Profile.save().catch((err) => console.log(err));
-      }
+      let Profile = await client.createProfile(user.id);
 
       if (!command) return;
       if (Profile.botBanned) return;
@@ -57,17 +28,11 @@ module.exports = {
           }
         }
 
-        if (command.allowRoles) {
-          if (
-            !command.allowRoles.some((role) =>
-              interaction.member.roles.cache.has(role)
-            )
-          ) {
+        if (command.allowRoles && !command.allowRoles.some((role => interaction.member.roles.cache.has(role)))) {
             return await interaction.reply({
               content: `You don't have the required role to use this command!`,
               ephemeral: true,
             });
-          }
         }
 
         await command.execute(interaction, client);
@@ -76,7 +41,7 @@ module.exports = {
           $inc: { [`commandsRan.${command.name}`]: 1 },
         });
 
-        // Put the guild on cooldown
+        // Put the user on cooldown
         if (command.cooldown) {
           const cd = command.cooldown * 1000;
           client.cooldowns.set(`${user.id}-${command.name}`, Date.now() + cd);

@@ -7,20 +7,15 @@ module.exports = (client) => {
     const eventFolders = readdirSync("./src/events");
 
     for (const folder of eventFolders) {
-      /**
-       * Array of event file names.
-       * @type {string[]}
-       */
       const eventFiles = readdirSync(`./src/events/${folder}`).filter((file) =>
         file.endsWith(".js")
       );
       let lightGreen = chalk.hex("#90EE90");
-      // light grey hex
 
       switch (folder) {
         case "Client":
           for (const file of eventFiles) {
-            const s = Math.floor(Date.now());
+            const start = Math.floor(Date.now());
             const event = require(`../../events/${folder}/${file}`);
             let color = event.color;
             let name = event.name;
@@ -33,62 +28,31 @@ module.exports = (client) => {
             if (color === "lightGreen") color = lightGreen;
             if (event.once) {
               client.once(name, (...args) => event.execute(...args, client));
-              console.log(
-                `${await client.color("#b3b3b3", "[")}${chalk.green(
-                  `${folder} Event`
-                )}${await client.color("#b3b3b3", "]")} ${color(
-                  name
-                )} ${await client.color("#b3b3b3", "loaded in")} ${chalk.yellow(
-                  Date.now() - s + "ms"
-                )}`
-              );
-            } else {
-              client.on(name, (...args) => event.execute(...args, client));
-              console.log(
-                `${await client.color("#b3b3b3", "[")}${chalk.green(
-                  `${folder} Event`
-                )}${await client.color("#b3b3b3", "]")} ${color(
-                  name
-                )} ${await client.color("#b3b3b3", "loaded in")} ${chalk.yellow(
-                  Date.now() - s + "ms"
-                )}`
-              );
+              return await client.fastLog(`${folder} Event`, name, start);
             }
+
+            client.on(name, (...args) => event.execute(...args, client));
+            await client.fastLog(`${folder} Event`, name, start);
           }
           break;
         case "Mongo":
           for (const file of eventFiles) {
-            const s = Math.floor(Date.now());
+            const start = Math.floor(Date.now());
             const event = require(`../../events/${folder}/${file}`);
             let color = event.color;
             let name = event.name;
 
             if (color == "lightGreen") color = lightGreen;
+
             if (event.once) {
               connection.once(name, (...args) =>
                 event.execute(...args, client)
               );
-              console.log(
-                `${await client.color("#b3b3b3", "[")}${chalk.green(
-                  `${folder} Event`
-                )}${await client.color("#b3b3b3", "]")} ${color(
-                  name
-                )} ${await client.color("#b3b3b3", "loaded in")} ${chalk.yellow(
-                  Date.now() - s + "ms"
-                )}`
-              );
-            } else {
-              connection.on(name, (...args) => event.execute(...args, client));
-              console.log(
-                `${await client.color("#b3b3b3", "[")}${chalk.green(
-                  `${folder} Event`
-                )}${await client.color("#b3b3b3", "]")} ${color(
-                  name
-                )} ${await client.color("#b3b3b3", "loaded in")} ${chalk.yellow(
-                  Date.now() - s + "ms"
-                )}`
-              );
+              return await client.fastLog(`${folder} Event`, name, start);
             }
+
+            connection.on(name, (...args) => event.execute(...args, client));
+            await client.fastLog(`${folder} Event`, name, start);
           }
           break;
 
