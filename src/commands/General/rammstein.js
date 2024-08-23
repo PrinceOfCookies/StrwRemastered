@@ -43,13 +43,14 @@ const songs = {
 };
 
 const songSlashCommand = new SlashCommandBuilder()
-  .setName("rammstein") // Reem is to seperate it from the other botban command (Old version, currently running)
+  .setName("rammstein")
   .setDescription("rammstein SONGS");
 
+// Dynamically add subcommands
 Object.keys(songs).forEach((songName) => {
-  songSlashCommand.addSubcommand((subcommand) => {
-    subcommand.setName(songName).setDescription(songName);
-  });
+  songSlashCommand.addSubcommand((subcommand) =>
+    subcommand.setName(songName).setDescription(songName)
+  );
 });
 
 module.exports = {
@@ -57,8 +58,7 @@ module.exports = {
   async execute(interaction) {
     const requestedSong = interaction.options.getSubcommand();
     return await interaction.reply({
-      content:
-        songs[requestedSong] || `Unable to find song '${requestedSong}' :wawa:`,
+      content: songs[requestedSong] || `Unable to find song '${requestedSong}' :wawa:`,
     });
   },
   cooldown: 5,
