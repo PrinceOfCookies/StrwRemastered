@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-let { TOKEN, MONGOTOKEN } = process.env;
+const { TOKEN, MONGOTOKEN } = process.env;
 const { connect, mongoose } = require("mongoose");
 const {
   Client,
@@ -71,9 +71,7 @@ client.handleEvents().then(() => {
   client.handleCommands();
 });
 
-// Just to make sure both are 100% strings
-MONGOTOKEN = toString(MONGOTOKEN);
-TOKEN = toString(TOKEN);
+console.log(MONGOTOKEN);
 
 connect(MONGOTOKEN).then(() => {
   client.login(TOKEN);
