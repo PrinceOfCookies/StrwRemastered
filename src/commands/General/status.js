@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, MessageEmbed, version } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder, version } = require("discord.js");
 const moment = require("moment");
 const m = require("moment-duration-format");
 const os = require("os");
@@ -21,7 +21,7 @@ module.exports = {
     }
 
     const uptime = moment.duration(client.uptime);
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle("Status: ONLINE")
       .setColor(randomColor())
       .addFields(
