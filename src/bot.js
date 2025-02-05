@@ -71,12 +71,13 @@ for (const folder of loadOrder) {
   }
 }
 
+client.wfmlogin();
+client.getWFMItems();
+
 client.handleEvents().then(() => {
   client.handleCommands();
 });
 
-client.wfmlogin();
-client.getWFMItems();
 connect(MONGOTOKEN).then(() => {
   client.login(TOKEN);
 });
