@@ -1,10 +1,8 @@
-const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const chalk = require("chalk");
-const fs = require("fs");
-const path = "json/wfm_items.json";
+import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
+import fs from "fs";
 const path2 = "json/wfm_item_orders.json";
 
-module.exports = {
+export default {
   data: new SlashCommandBuilder()
     .setName("wfm")
     .setDescription("Warframe market commands")
@@ -22,7 +20,7 @@ module.exports = {
             .setName("orders")
             .setDescription("Find orders for a specific item")
             .addStringOption((option) => {
-              return option
+              option
                 .setName("item")
                 .setDescription("The item that you want to search for")
                 .setRequired(true);
