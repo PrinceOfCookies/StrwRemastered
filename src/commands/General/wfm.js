@@ -15,16 +15,11 @@ module.exports = {
       subcommand
         .setName("orders")
         .setDescription("Find orders for a specific item")
-        .addSubcommand((subcommand) => {
-          return subcommand
-            .setName("orders")
-            .setDescription("Find orders for a specific item")
-            .addStringOption((option) => {
-              option
-                .setName("item")
-                .setDescription("The item that you want to search for")
-                .setRequired(true);
-            });
+        .addStringOption((option) => {
+          option
+            .setName("item")
+            .setDescription("The item that you want to search for")
+            .setRequired(true);
         });
     })
     .addSubcommand((subcommand) =>
