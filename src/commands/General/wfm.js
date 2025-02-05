@@ -11,17 +11,17 @@ module.exports = {
         .setName("check")
         .setDescription("Return info on the user (if its cookies)")
     )
-    .addSubcommand((subcommand) => {
+    .addSubcommand((subcommand) =>
       subcommand
         .setName("orders")
         .setDescription("Find orders for a specific item")
-        .addStringOption((option) => {
+        .addStringOption((option) =>
           option
             .setName("item")
             .setDescription("The item that you want to search for")
-            .setRequired(true);
-        });
-    })
+            .setRequired(true)
+        )
+    )
     .addSubcommand((subcommand) =>
       subcommand
         .setName("updateitemlist")
