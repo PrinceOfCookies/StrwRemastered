@@ -23,22 +23,19 @@ module.exports = {
             .setDescription("The item that you want to search for")
             .setRequired(true);
 
-            return option;
-          });
+          if (fs.existsSync(path)) {
+            let items = JSON.parse(fs.readFileSync(path));
+            Object.entries(items).forEach(([key, value]) => {
+              option.addChoices({ name: key, value });
+            });
+          } else {
+            console.log(
+              chalk.red("wfm_items.json not found, please update the item list")
+            );
+          }
 
-      if (!fs.existsSync(path)) {
-        console.log(
-          chalk.red("wfm_items.json not found, please update the item list")
-        );
-        return subcommand;
-      }
-
-      let items = JSON.parse(fs.readFileSync(path));
-      Object.entries(items).forEach(([key, value]) => {
-        subcommand.options[0].addChoice(key, value);
-      });
-
-      return subcommand;
+          return option;
+        });
     })
     .addSubcommand((subcommand) =>
       subcommand
@@ -93,7 +90,10 @@ module.exports = {
             { name: "Platform", value: user.platform, inline: true }
           );
 
-        await interaction.reply({ embeds: [userEmbed], flags: MessageFlags.Ephemeral });
+        await interaction.reply({
+          embeds: [userEmbed],
+          flags: MessageFlags.Ephemeral,
+        });
 
         break;
       case "updateitemlist":
