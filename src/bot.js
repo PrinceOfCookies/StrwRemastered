@@ -71,8 +71,8 @@ for (const folder of loadOrder) {
   }
 }
 
-client.wfmlogin();
-client.getWFMItems();
+await client.wfmlogin();
+await client.getWFMItems();
 
 client.handleEvents().then(() => {
   client.handleCommands();
