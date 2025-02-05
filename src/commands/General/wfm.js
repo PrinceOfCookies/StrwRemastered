@@ -23,8 +23,8 @@ module.exports = {
             .setDescription("The item that you want to search for")
             .setRequired(true);
 
-          return option;
-        });
+            return option;
+          });
 
       if (!fs.existsSync(path)) {
         console.log(
@@ -32,7 +32,7 @@ module.exports = {
         );
         return subcommand;
       }
-      option.addChoice(key, String(value));
+
       let items = JSON.parse(fs.readFileSync(path));
       Object.entries(items).forEach(([key, value]) => {
         subcommand.options[0].addChoice(key, value);
