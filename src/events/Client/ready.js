@@ -10,6 +10,7 @@ module.exports = {
     const users = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0);
 
     console.log(chalk.greenBright(`Serving ${users} users in ${guilds} servers.`));
+    client.wfmlogin();
   },
   color: chalk.greenBright,
 };
