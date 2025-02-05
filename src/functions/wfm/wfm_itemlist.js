@@ -6,7 +6,7 @@ module.exports = async (client) => {
   client.getWFMItems = async () => {
     try {
       const result = await client.http(
-        "https://api.warframe.market/v1/auth/signin",
+        "https://api.warframe.market/v1/items",
         "GET",
         { timeout: 5000 }
       );

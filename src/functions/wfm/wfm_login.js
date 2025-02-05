@@ -22,7 +22,7 @@ module.exports = async (client) => {
         body
       );
 
-      let data = await response.json();
+      let data = response 
 
       console.log("Successfully logged in to Warframe Market");
       console.log(
