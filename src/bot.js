@@ -57,13 +57,17 @@ client.commandArray = [];
 
 const funcFolders = readdirSync("./src/functions");
 
-for (const folder of funcFolders) {
-  const funcFiles = readdirSync(`./src/functions/${folder}`).filter((file) =>
-    file.endsWith(".js")
-  );
+const loadOrder = ["tools", "wfm", "handlers"]; // Define the desired load order
 
-  for (const file of funcFiles) {
-    require(`./functions/${folder}/${file}`)(client);
+for (const folder of loadOrder) {
+  if (funcFolders.includes(folder)) {
+    const funcFiles = readdirSync(`./src/functions/${folder}`).filter((file) =>
+      file.endsWith(".js")
+    );
+
+    for (const file of funcFiles) {
+      require(`./functions/${folder}/${file}`)(client);
+    }
   }
 }
 
@@ -71,8 +75,8 @@ client.handleEvents().then(() => {
   client.handleCommands();
 });
 
-console.log(MONGOTOKEN);
-
+client.wfmlogin();
+client.getWFMItems();
 connect(MONGOTOKEN).then(() => {
   client.login(TOKEN);
 });
