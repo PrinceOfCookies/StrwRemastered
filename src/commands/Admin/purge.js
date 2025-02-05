@@ -28,7 +28,7 @@ module.exports = {
       purge.setDescription(
         `Succesfully deleted ${messages.size} messages from the channel.`
       );
-      interaction.reply({ embeds: [purge], ephemeral: true });
+      interaction.reply({ embeds: [purge], flags: MessageFlags.Ephemeral });
     });
   },
   color: "#DEADED",

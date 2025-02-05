@@ -20,11 +20,11 @@ module.exports = {
 
     let tUser = await User.findOne({ userID: user.id });
 
-    if (user == client.user) return interaction.reply({content: "You can't bot ban me!", ephemeral: true});
-    if (user == interaction.user) return interaction.reply({content: "You can't bot ban yourself!", ephemeral: true});
-    if (user.id == "698793333178368040") return interaction.reply({content: "You can't bot ban the bot owner!", ephemeral: true});
-    if (!tUser) return interaction.reply({content: "This user has not used the bot before so they have no profile!", ephemeral: true});
-    if (tUser.botBanned) return interaction.reply({content: "This user is already bot banned!", ephemeral: true});
+    if (user == client.user) return interaction.reply({content: "You can't bot ban me!", flags: MessageFlags.Ephemeral});
+    if (user == interaction.user) return interaction.reply({content: "You can't bot ban yourself!", flags: MessageFlags.Ephemeral});
+    if (user.id == "698793333178368040") return interaction.reply({content: "You can't bot ban the bot owner!", flags: MessageFlags.Ephemeral});
+    if (!tUser) return interaction.reply({content: "This user has not used the bot before so they have no profile!", flags: MessageFlags.Ephemeral});
+    if (tUser.botBanned) return interaction.reply({content: "This user is already bot banned!", flags: MessageFlags.Ephemeral});
 
     await tUser.updateOne({ botBanned: true });
 

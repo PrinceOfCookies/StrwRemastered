@@ -35,7 +35,7 @@ module.exports = {
       `Successfully set ${user.username}'s balance to ${balance}`
     );
 
-    interaction.reply({ embeds: [embed], ephemeral: true });
+    interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
   },
   color: "#DEADED",
   allowRoles: ["1137095530669932665"], // Strawhat OW Role

@@ -18,7 +18,7 @@ module.exports = {
         new RegExp(" ", "g"),
         "%20"
       )}`,
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     });
   },
   color: "#DEADED",

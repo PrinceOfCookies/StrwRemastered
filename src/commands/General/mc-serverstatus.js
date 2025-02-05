@@ -18,7 +18,7 @@ module.exports = {
     if (ip == null) {
       return await interaction.reply({
         content: "IP is null, please try again.",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -30,7 +30,7 @@ module.exports = {
     if (!json.players) {
       return await interaction.reply({
         content: "Error: couldn't find that server!",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 

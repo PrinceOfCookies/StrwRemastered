@@ -16,7 +16,7 @@ module.exports = {
     if (text == null) {
       return await interaction.reply({
         content: "Text is null, please try again.",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 

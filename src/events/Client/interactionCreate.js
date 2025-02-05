@@ -23,7 +23,7 @@ module.exports = {
               content: `You are on cooldown for this command! Please wait ${Math.floor(
                 timeleft
               )} more second(s) before using this command again!`,
-              ephemeral: true,
+              flags: MessageFlags.Ephemeral,
             });
           }
         }
@@ -31,7 +31,7 @@ module.exports = {
         if (command.allowRoles && !command.allowRoles.some((role => interaction.member.roles.cache.has(role)))) {
             return await interaction.reply({
               content: `You don't have the required role to use this command!`,
-              ephemeral: true,
+              flags: MessageFlags.Ephemeral,
             });
         }
 
@@ -53,7 +53,7 @@ module.exports = {
         console.log(error);
         await interaction.reply({
           content: `Something went wrong while executing this command!`,
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
       }
     } else if (interaction.isButton()) {
@@ -68,12 +68,12 @@ module.exports = {
           if (video.yesVote.includes(nbutton.user.id)) {
             return await videoschannel.send({
               content: "You have already voted!",
-              ephemeral: true,
+              flags: MessageFlags.Ephemeral,
             });
           } else if (video.noVote.includes(nbutton.user.id)) {
             await videoschannel.send({
               content: "You've changed your vote to good!",
-              ephemeral: true,
+              flags: MessageFlags.Ephemeral,
             });
 
             // Remove the user from the noVote array
@@ -88,7 +88,7 @@ module.exports = {
 
           await videoschannel.send({
             content: "You voted good!",
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
           });
 
           break;
@@ -97,12 +97,12 @@ module.exports = {
           if (video.noVote.includes(nbutton.user.id)) {
             return await videoschannel.send({
               content: "You have already voted!",
-              ephemeral: true,
+              flags: MessageFlags.Ephemeral,
             });
           } else if (video.yesVote.includes(nbutton.user.id)) {
             await videoschannel.send({
               content: "You've changed your vote to bad!",
-              ephemeral: true,
+              flags: MessageFlags.Ephemeral,
             });
 
             // Remove the user from the yesVote array
@@ -116,14 +116,14 @@ module.exports = {
           }
           await videoschannel.send({
             content: "You voted bad!",
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
           });
 
           break;
         case "feedback":
           await videoschannel.send({
             content: "Button currently doesnt work",
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
           });
           break;
         case "nopost":

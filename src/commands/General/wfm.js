@@ -55,7 +55,7 @@ module.exports = {
         if (interaction.user.id !== "698793333178368040") {
           return interaction.reply({
             content: "Youre not allowed to use this command, sorry.",
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
           });
         }
 
@@ -93,14 +93,14 @@ module.exports = {
             { name: "Platform", value: user.platform, inline: true }
           );
 
-        await interaction.reply({ embeds: [userEmbed], ephemeral: true });
+        await interaction.reply({ embeds: [userEmbed], flags: MessageFlags.Ephemeral });
 
         break;
       case "updateitemlist":
         if (!interaction.member.roles.cache.has("1137095530669932665")) {
           return interaction.reply({
             content: "You dont have the required role to use this command.",
-            ephemeral: true,
+            flags: MessageFlags.Ephemeral,
           });
         }
 
@@ -108,7 +108,7 @@ module.exports = {
 
         await interaction.reply({
           content: "Successfully updated the item list",
-          ephemeral: true,
+          flags: MessageFlags.Ephemeral,
         });
         break;
       case "orders":

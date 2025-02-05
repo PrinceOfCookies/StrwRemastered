@@ -17,7 +17,7 @@ module.exports = {
   async execute(interaction, client) {
     return interaction.reply({
       content: "This command is disabled.",
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     });
 
     await client.checkVideos();
@@ -55,7 +55,7 @@ module.exports = {
 
     // return await interaction.reply({
     //   content: "Poll Posted",
-    //   ephemeral: true,
+    //   flags: MessageFlags.Ephemeral,
     // });
   },
   color: "#DEADED",

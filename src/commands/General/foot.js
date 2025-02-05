@@ -16,7 +16,7 @@ module.exports = {
 
     await interaction.reply({
       content: "Footed",
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     });
   },
   color: "#DEADED",

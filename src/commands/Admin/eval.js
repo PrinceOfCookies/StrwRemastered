@@ -43,7 +43,7 @@ module.exports = {
         if (!hasPermission) {
             return interaction.reply({
                 content: "You do not have permission to use this command.",
-                ephemeral: true,
+                flags: MessageFlags.Ephemeral,
             });
         }
 
@@ -66,7 +66,7 @@ module.exports = {
         }
 
         // Reply with the result embed
-        await interaction.reply({ embeds: [embed], ephemeral: true });
+        await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
     },
     color: "#DEADED",
     allowRoles: ["1120733358784266302"], // GA Role

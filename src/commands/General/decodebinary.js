@@ -16,14 +16,14 @@ module.exports = {
     if (binary == null) {
       return await interaction.reply({
         content: "Text is null, please try again.",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
     if (isNaN(parseInt(binary))) {
       return await interaction.reply({
         content: "Text is not binary, please try again.",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
