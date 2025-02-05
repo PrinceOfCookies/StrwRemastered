@@ -17,28 +17,16 @@ module.exports = {
       subcommand
         .setName("orders")
         .setDescription("Find orders for a specific item")
-        .addStringOption((option) => {
-          option
-            .setName("item")
-            .setDescription("The item that you want to search for")
-            .setRequired(true);
-
-          if (fs.existsSync(path)) {
-            let items = JSON.parse(fs.readFileSync(path));
-
-            // Limit to 25 choices
-            Object.entries(items)
-              .slice(0, 25)
-              .forEach(([key, value]) => {
-                option.addChoices({ name: key, value });
-              });
-          } else {
-            console.log(
-              chalk.red("wfm_items.json not found, please update the item list")
-            );
-          }
-
-          return option;
+        .addSubcommand((subcommand) => {
+          return subcommand
+            .setName("orders")
+            .setDescription("Find orders for a specific item")
+            .addStringOption((option) => {
+              return option
+                .setName("item")
+                .setDescription("The item that you want to search for")
+                .setRequired(true);
+            });
         });
     })
     .addSubcommand((subcommand) =>
@@ -109,6 +97,8 @@ module.exports = {
         }
 
         await client.getWFMItems();
+
+        //
 
         await interaction.reply({
           content: "Successfully updated the item list",
