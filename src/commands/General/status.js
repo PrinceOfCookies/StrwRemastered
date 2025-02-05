@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, version } = require("discord.js");
+const { SlashCommandBuilder, MessageFlags, EmbedBuilder, version } = require("discord.js");
 const moment = require("moment");
 const m = require("moment-duration-format");
 const os = require("os");

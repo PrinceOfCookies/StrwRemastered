@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder, MessageFlags, EmbedBuilder } = require("discord.js");
 const fs = require("fs");
 const path2 = "json/wfm_item_orders.json";
 
@@ -137,35 +137,37 @@ module.exports = {
         let offlineOrdersTop10 = offlineOrders.slice(0, 10);
         let expensiveOrdersTop10 = expensiveOrders.slice(0, 10);
 
-        orderEmbed.addField(
-          "Online Orders",
-          onlineOrdersTop10
-            .map(
-              (order) =>
-                `Platinum: ${order.platinum} | Quantity: ${order.quantity} | User: ${order.user.ingame_name}`
-            )
-            .join("\n"),
-          true
-        );
-        orderEmbed.addField(
-          "Offline Orders",
-          offlineOrdersTop10
-            .map(
-              (order) =>
-                `Platinum: ${order.platinum} | Quantity: ${order.quantity} | User: ${order.user.ingame_name}`
-            )
-            .join("\n"),
-          true
-        );
-        orderEmbed.addField(
-          "Expensive Orders",
-          expensiveOrdersTop10
-            .map(
-              (order) =>
-                `Platinum: ${order.platinum} | Quantity: ${order.quantity} | User: ${order.user.ingame_name}`
-            )
-            .join("\n"),
-          true
+        orderEmbed.addFields(
+          {
+            name: "Online Orders",
+            value: onlineOrdersTop10
+              .map(
+                (order) =>
+                  `Platinum: ${order.platinum} | Quantity: ${order.quantity} | User: ${order.user.ingame_name}`
+              )
+              .join("\n"),
+            inline: true,
+          },
+          {
+            name: "Offline Orders",
+            value: offlineOrdersTop10
+              .map(
+                (order) =>
+                  `Platinum: ${order.platinum} | Quantity: ${order.quantity} | User: ${order.user.ingame_name}`
+              )
+              .join("\n"),
+            inline: true,
+          },
+          {
+            name: "Expensive Orders",
+            value: expensiveOrdersTop10
+              .map(
+                (order) =>
+                  `Platinum: ${order.platinum} | Quantity: ${order.quantity} | User: ${order.user.ingame_name}`
+              )
+              .join("\n"),
+            inline: true,
+          }
         );
 
         await interaction.reply({ embeds: [orderEmbed] });
