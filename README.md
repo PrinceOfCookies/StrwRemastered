@@ -2,16 +2,19 @@
 
 - This is a remastered version of the old Strawhat bot, specifically designed for the [Strawhat Fanclub Discord server](https://strw.club). The bot has been updated and improved to provide a better experience for all members of the server. Enjoy enhanced features, improved performance, and new functionalities that make interacting with the server more fun and engaging.
 
-# Improvements
-- Condensed the rammstein songs to one command
-- Created [`client.fastLog`](https://github.com/PrinceOfCookies/StrwRemastered/blob/master/src/functions/tools/fastLog.js) and [`client.createProfile`](https://github.com/PrinceOfCookies/StrwRemastered/blob/master/src/functions/tools/createProfile.js)
-- General optimization of handlers
-- Updated [Discord.JS](https://github.com/discordjs/discord.js) from v14.13 -> v14.15.3
+## Improvements
+- Condensed the Rammstein songs to one command.
+- Created [`client.fastLog`](https://github.com/PrinceOfCookies/StrwRemastered/blob/master/src/functions/tools/fastLog.js) and [`client.createProfile`](https://github.com/PrinceOfCookies/StrwRemastered/blob/master/src/functions/tools/createProfile.js).
+- General optimization of handlers.
+- Updated [Discord.JS](https://github.com/discordjs/discord.js) from v14.13 to v14.15.3.
 
-### Definitions
-- [`client.fastLog`](https://github.com/PrinceOfCookies/StrwRemastered/blob/master/src/functions/tools/fastLog.js) is a helper command, that just runs console.log on on text, with some pre put colored text. It takes both the text, and the color you want said text to be! it also takes a `start` parameter which should be `Date.now()` and then determines how long the task took
-- [`client.createProfile`](https://github.com/PrinceOfCookies/StrwRemastered/blob/master/src/functions/tools/createProfile.js) does exactly what it says, it created a profile, whether this be when someone joins, does a command, types a message, whatever! It takes the user as a parameter, and checks if they already have a profile, if they do, it'll just return the profile! If they don't, then it will create a profile for them and then return that so it can be used!
+## Definitions
+- [`client.fastLog`](https://github.com/PrinceOfCookies/StrwRemastered/blob/master/src/functions/tools/fastLog.js) is a helper command that runs `console.log` on text with pre-defined colored text. It takes the text, the color you want the text to be, and a `start` parameter (which should be `Date.now()`) to determine how long the task took.
+- [`client.createProfile`](https://github.com/PrinceOfCookies/StrwRemastered/blob/master/src/functions/tools/createProfile.js) creates a profile when someone joins, executes a command, or types a message. It takes the user as a parameter, checks if they already have a profile, and returns it if they do. If they don't, it creates a profile for them and then returns it for use.
+- [`wfm_login`](https://github.com/PrinceOfCookies/StrwRemastered/blob/master/src/functions/tools/wfm/wfm_login.js) logs into the Warframe Market (WFM) using provided credentials. It handles authentication and session management to ensure that the bot can interact with the WFM API.
+- [`wfm_orderinfo`](https://github.com/PrinceOfCookies/StrwRemastered/blob/master/src/functions/tools/wfm/wfm_orderinfo.js) retrieves information about orders from the Warframe Market. It fetches details such as order status, item details, and pricing, allowing the bot to provide up-to-date market information.
+- [`wfm_itemlist`](https://github.com/PrinceOfCookies/StrwRemastered/blob/master/src/functions/tools/wfm/wfm_itemlist.js) retrieves a list of items available on the Warframe Market. It fetches details such as item names, categories, and availability, allowing the bot to provide comprehensive item information.
 
-# Suggestions/Improvements
-- Feel free to explore the bot's source code and contribute to its development. If you have any suggestions for improvement, please submit a pull request
 
+## Suggestions/Improvements
+- Feel free to explore the bot's source code and contribute to its development. If you have any suggestions for improvement, please submit a pull request.
