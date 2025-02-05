@@ -22,15 +22,12 @@ module.exports = async (client) => {
         body
       );
 
-      let data = response 
-
-      console.log(data)
       console.log(
         chalk.greenBright(
-          `Successfully logged in as ${data.payload.user.ingame_name}`
+          `Successfully logged in as ${response.payload.user.ingame_name}`
         )
       );
-      client.WFMAccData = data;
+      client.WFMAccData = response;
     } catch (error) {
       console.error("Error during login:", error);
     }

@@ -11,22 +11,20 @@ module.exports = async (client) => {
         { timeout: 5000 }
       );
 
-      let data = result
-      console.log(data)
-      if (!data.payload || !data.payload.items) {
+      if (!result.payload || !result.payload.items) {
         throw new Error("Invalid response format");
       }
 
-      const cleanedData = {};
-      data.payload.items.forEach((item) => {
-        cleanedData[item.item_name] = item.url_name;
+      const cleanedresult = {};
+      result.payload.items.forEach((item) => {
+        cleanedresult[item.item_name] = item.url_name;
       });
 
       if (!fs.existsSync("json")) {
         fs.mkdirSync("json");
       }
 
-      fs.writeFileSync(path, JSON.stringify(cleanedData, null, 2));
+      fs.writeFileSync(path, JSON.stringify(cleanedresult, null, 2));
       console.log(chalk.greenBright("Successfully updated wfm_items.json"));
     } catch (error) {
       console.error(chalk.red("Error fetching items:"), error.message);
