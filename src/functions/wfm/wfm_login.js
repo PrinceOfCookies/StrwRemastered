@@ -24,7 +24,7 @@ module.exports = async (client) => {
 
       let data = response 
 
-      console.log("Successfully logged in to Warframe Market");
+      print(data)
       console.log(
         chalk.greenBright(
           `Successfully logged in as ${data.payload.user.ingame_name}`

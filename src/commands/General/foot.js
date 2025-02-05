@@ -19,5 +19,5 @@ module.exports = {
       ephemeral: true,
     });
   },
-  color: chalk.hex("#DEADED"),
+  color: "#DEADED",
 };

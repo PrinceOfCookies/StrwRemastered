@@ -9,5 +9,5 @@ module.exports = {
 
     member.roles.add("1120733358759088231");
   },
-  color: chalk.greenBright,
+  color: "#00FF00",
 };

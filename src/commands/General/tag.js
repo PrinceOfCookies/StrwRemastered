@@ -29,5 +29,5 @@ module.exports = {
     }
   },
   cooldown: 10,
-  color: chalk.hex("#DEADED"),
+  color: "#DEADED",
 };

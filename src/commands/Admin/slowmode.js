@@ -23,6 +23,6 @@ module.exports = {
       content: `Channel slowmode has been set to ${time} second(s) by ${interaction.user.tag}`,
     });
   },
-  color: chalk.hex("#DEADED"),
+  color: "#DEADED",
   allowRoles: ["1120733358784266302"], // GA Role
 };

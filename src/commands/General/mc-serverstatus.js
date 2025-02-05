@@ -70,7 +70,7 @@ module.exports = {
       embeds: [embed],
     });
   },
-  color: chalk.hex("#DEADED"),
+  color: "#DEADED",
 };
 
 // Credit to: https://github.com/Uo1428/ALL-IN-ONE-Discord-Bot-/blob/main

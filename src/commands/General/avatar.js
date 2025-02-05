@@ -17,5 +17,5 @@ module.exports = {
       content: user.displayAvatarURL({ dynamic: true, size: 4096 }),
     });
   },
-  color: chalk.hex("#DEADED"),
+  color: "#DEADED",
 };

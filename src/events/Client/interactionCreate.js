@@ -200,5 +200,5 @@ module.exports = {
       }
     }
   },
-  color: chalk.redBright,
+  color: "#ff0000", // Bright red color
 };

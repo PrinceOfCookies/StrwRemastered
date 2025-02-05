@@ -5,5 +5,5 @@ module.exports = {
   execute() {
     console.log(chalk.red("[Database Status]: Disconnected."));
   },
-  color: chalk.red
+  color: "#FF0000",
 };

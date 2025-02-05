@@ -31,6 +31,6 @@ module.exports = {
       interaction.reply({ embeds: [purge], ephemeral: true });
     });
   },
-  color: chalk.hex("#DEADED"),
+  color: "#DEADED",
   allowRoles: ["1120733358784266302"], // GA Role
 };

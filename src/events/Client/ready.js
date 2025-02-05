@@ -11,5 +11,5 @@ module.exports = {
 
     console.log(chalk.greenBright(`Serving ${users} users in ${guilds} servers.`));
   },
-  color: chalk.greenBright,
+  color: "#00FF00",
 };

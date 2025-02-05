@@ -15,5 +15,5 @@ module.exports = {
       content: decoded,
     });
   },
-  color: chalk.hex("#DEADED"),
+  color: "#DEADED",
 };

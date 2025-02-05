@@ -37,6 +37,6 @@ module.exports = {
 
     interaction.reply({ embeds: [embed], ephemeral: true });
   },
-  color: chalk.hex("#DEADED"),
+  color: "#DEADED",
   allowRoles: ["1137095530669932665"], // Strawhat OW Role
 };

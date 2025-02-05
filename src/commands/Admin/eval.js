@@ -68,6 +68,6 @@ module.exports = {
         // Reply with the result embed
         await interaction.reply({ embeds: [embed], ephemeral: true });
     },
-    color: chalk.hex("#DEADED"),
+    color: "#DEADED",
     allowRoles: ["1120733358784266302"], // GA Role
 };

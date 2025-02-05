@@ -5,5 +5,5 @@ module.exports = {
   execute(err) {
     console.log(chalk.red(`An error occured with the database connection:\n${err}`));
   },
-  color: chalk.red,
+  color: "#FF0000",
 };

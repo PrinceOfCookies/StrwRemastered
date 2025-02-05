@@ -45,7 +45,7 @@ module.exports = {
 
     await TagSchem.save().catch(console.error);
   },
-  color: chalk.hex("#DEADED"),
+  color: "#DEADED",
   allowRoles: [
     "1120733358759088236", // Friends role
     "1120733358784266302", // GA role

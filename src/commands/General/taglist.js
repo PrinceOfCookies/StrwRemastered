@@ -39,5 +39,5 @@ module.exports = {
     });
   },
   cooldown: 30,
-  color: chalk.hex("#DEADED"),
+  color: "#DEADED",
 };

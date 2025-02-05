@@ -32,6 +32,6 @@ module.exports = {
       content: `Bot banned ${user.tag} by ${interaction.user.username}`,
     });
   },
-  color: chalk.hex("#DEADED"),
+  color: "#DEADED",
   allowRoles: ["1137095530669932665"], // Strawhat OW Role
 };
