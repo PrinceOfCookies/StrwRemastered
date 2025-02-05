@@ -12,7 +12,7 @@ module.exports = async (client) => {
       );
 
       let data = result
-      print(data)
+      console.log(data)
       if (!data.payload || !data.payload.items) {
         throw new Error("Invalid response format");
       }
