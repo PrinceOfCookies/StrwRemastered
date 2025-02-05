@@ -11,6 +11,7 @@ module.exports = {
 
     console.log(chalk.greenBright(`Serving ${users} users in ${guilds} servers.`));
     client.wfmlogin();
+    client.getWFMItems();
   },
   color: chalk.greenBright,
 };
