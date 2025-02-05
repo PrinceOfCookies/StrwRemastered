@@ -1,5 +1,4 @@
 const fs = require("fs");
-const fetch = require("node-fetch");
 const chalk = require("chalk");
 const path = "json/wfm_item_orders.json";
 
