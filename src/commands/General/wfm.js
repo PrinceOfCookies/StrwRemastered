@@ -2,7 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const fs = require("fs");
 const path2 = "json/wfm_item_orders.json";
 
-export default {
+module.exports = {
   data: new SlashCommandBuilder()
     .setName("wfm")
     .setDescription("Warframe market commands")
