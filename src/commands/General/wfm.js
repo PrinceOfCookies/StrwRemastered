@@ -25,9 +25,13 @@ module.exports = {
 
           if (fs.existsSync(path)) {
             let items = JSON.parse(fs.readFileSync(path));
-            Object.entries(items).forEach(([key, value]) => {
-              option.addChoices({ name: key, value });
-            });
+
+            // Limit to 25 choices
+            Object.entries(items)
+              .slice(0, 25)
+              .forEach(([key, value]) => {
+                option.addChoices({ name: key, value });
+              });
           } else {
             console.log(
               chalk.red("wfm_items.json not found, please update the item list")
