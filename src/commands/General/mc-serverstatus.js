@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, MessageFlags, MessageFlags, EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder, MessageFlags, EmbedBuilder } = require("discord.js");
 const chalk = require("chalk");
 const { default: axios } = require("axios");
 
