@@ -5,19 +5,13 @@ const path = "json/wfm_item_orders.json";
 module.exports = async (client) => {
   client.getItemOrders = async (itemName) => {
     try {
-      let result, secondBody;
-      [result, secondBody] = await client.fetch(`https://api.warframe.market/v1/items/${itemName}/orders`, {}, null, 5000);
+      let result = await client.http(`https://api.warframe.market/v1/items/${itemName}/orders`, "GET", { timeout: 5000});
 
-      if (result.code < 200 || result.code >= 300) {
-        return console.log("Failed to fetch orders. Code: " + result.code + " Reason: " + result.reason);
-      }
-
-      let data = JSON.parse(secondBody);
-      if (!data.payload || !data.payload.orders) {
+      if (!result.payload || !result.payload.orders) {
         throw new Error("Invalid response format or no orders found");
       }
 
-      const cleanedData = data.payload.orders.map(order => ({
+      const cleanedresult = result.payload.orders.map(order => ({
         platinum: order.platinum,
         quantity: order.quantity,
         order_type: order.order_type,
@@ -38,7 +32,7 @@ module.exports = async (client) => {
         fs.mkdirSync("json");
       }
 
-      fs.writeFileSync(path, JSON.stringify(cleanedData, null, 2));
+      fs.writeFileSync(path, JSON.stringify(cleanedresult, null, 2));
       console.log(chalk.greenBright(`Successfully updated wfm_item_orders.json for item: ${itemName}`));
 
     } catch (error) {
