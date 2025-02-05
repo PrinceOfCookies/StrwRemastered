@@ -11,7 +11,8 @@ module.exports = async (client) => {
         { timeout: 5000 }
       );
 
-      let data = result.data;
+      let data = result
+      print(data)
       if (!data.payload || !data.payload.items) {
         throw new Error("Invalid response format");
       }
