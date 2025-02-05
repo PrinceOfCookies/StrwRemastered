@@ -1,5 +1,5 @@
-import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import fs from "fs";
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const fs = require("fs");
 const path2 = "json/wfm_item_orders.json";
 
 export default {
