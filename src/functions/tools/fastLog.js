@@ -1,4 +1,4 @@
-const chalk = require("chalk");
+const { green, yellow } = require("chalk");
 
 module.exports = (client) => {
   client.fastLog = async (messageText, color, name, start) => {
@@ -7,11 +7,11 @@ module.exports = (client) => {
     
     const logMessage = (
       await client.color(bColor, "[") +
-      chalk.green(messageText) +
+      green(messageText) +
       await client.color(bColor, "] ") +
       await client.color(color, name) +
       await client.color(bColor, " loaded in ") +
-      chalk.yellow(`${time}ms`)
+      yellow(`${time}ms`)
     )
 
     return console.log(logMessage);

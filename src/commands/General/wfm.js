@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, MessageFlags, EmbedBuilder } = require("discord.js");
 const fs = require("fs");
-const path2 = "json/wfm_item_orders.json";
+const path2 = "src/json/wfm_item_orders.json";
 
 module.exports = {
   data: new SlashCommandBuilder()

@@ -1,11 +1,11 @@
-const axios = require("axios");
+const { get, post } = require("axios");
 
 module.exports = async (client) => {
   client.http = async (url, method, headers, body) => {
     switch (method) {
       case "GET":
         try {
-          let response = await axios.get(url, { headers: headers });
+          let response = await get(url, { headers: headers });
 
           if (response.status < 200 || response.status >= 300) {
             console.error(
@@ -24,7 +24,7 @@ module.exports = async (client) => {
         break;
       case "POST":
         try {
-          let response = await axios.post(url, body, { headers: headers });
+          let response = await post(url, body, { headers: headers });
 
           if (response.status < 200 || response.status >= 300) {
             console.error(

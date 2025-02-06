@@ -1,6 +1,6 @@
 const fs = require("fs");
 const chalk = require("chalk");
-const path = "json/wfm_item_orders.json";
+const path = "src/json/wfm_item_orders.json";
 
 module.exports = async (client) => {
   client.getItemOrders = async (itemName) => {

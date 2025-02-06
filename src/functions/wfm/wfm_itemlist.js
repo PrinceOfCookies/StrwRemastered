@@ -1,6 +1,6 @@
 const fs = require("fs");
 const chalk = require("chalk");
-const path = "json/wfm_items.json";
+const path = "src/json/wfm_items.json";
 
 module.exports = async (client) => {
   client.getWFMItems = async () => {

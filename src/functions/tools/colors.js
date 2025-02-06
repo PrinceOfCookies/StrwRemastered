@@ -1,8 +1,8 @@
-const chalk = require("chalk");
+const { hex } = require("chalk");
 
 module.exports = (client) => {
-  client.color = async (hex, text) => {
-    let hexColor = chalk.hex(hex);
+  client.color = async (hexC, text) => {
+    let hexColor = hex(hexC);
     let colorText = hexColor(text);
 
     return colorText;

@@ -1,7 +1,7 @@
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const { readdirSync } = require("fs");
-const { green, white, blue, yellow } = require("chalk");
+const {  white, blue, yellow } = require("chalk");
 
 module.exports = (client) => {
   client.handleCommands = async () => {

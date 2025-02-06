@@ -1,5 +1,5 @@
 const { readdirSync } = require("fs");
-const chalk = require("chalk");
+const { white, hex } = require("chalk");
 const { connection } = require("mongoose");
 
 module.exports = (client) => {
@@ -10,7 +10,7 @@ module.exports = (client) => {
       const eventFiles = readdirSync(`./src/events/${folder}`).filter((file) =>
         file.endsWith(".js")
       );
-      let lightGreen = chalk.hex("#90EE90");
+      let lightGreen = hex("#90EE90");
 
       switch (folder) {
         case "Client":
@@ -21,7 +21,7 @@ module.exports = (client) => {
             let name = event.name;
 
             if (color == undefined) {
-              color = chalk.white;
+              color = white;
               console.error("No color provided for event: " + name);
             }
 
