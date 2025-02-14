@@ -1,5 +1,5 @@
 const { readdirSync } = require("fs");
-const { white, hex } = require("chalk");
+const { white } = require("chalk");
 const { connection } = require("mongoose");
 
 module.exports = (client) => {
@@ -10,7 +10,6 @@ module.exports = (client) => {
       const eventFiles = readdirSync(`./src/events/${folder}`).filter((file) =>
         file.endsWith(".js")
       );
-      let lightGreen = hex("#90EE90");
 
       switch (folder) {
         case "Client":
@@ -25,7 +24,6 @@ module.exports = (client) => {
               console.error("No color provided for event: " + name);
             }
 
-            if (color === "lightGreen") color = lightGreen;
             if (event.once) {
               client.once(name, (...args) => event.execute(...args, client));
               return await client.fastLog(`${folder} Event`, color, name, start);
@@ -41,8 +39,6 @@ module.exports = (client) => {
             const event = require(`../../events/${folder}/${file}`);
             let color = event.color;
             let name = event.name;
-
-            if (color == "lightGreen") color = lightGreen;
 
             if (event.once) {
               connection.once(name, (...args) =>
