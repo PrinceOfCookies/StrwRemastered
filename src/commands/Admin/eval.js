@@ -67,7 +67,7 @@ module.exports = {
         }
 
         // Reply with the result embed
-        await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
+        await interaction.reply({ embeds: [embed] }); // flags: MessageFlags.Ephemeral
     },
     color: "#DEADED",
     allowRoles: ["1120733358784266302"], // GA Role
