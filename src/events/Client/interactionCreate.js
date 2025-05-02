@@ -1,4 +1,4 @@
-const chalk = require("chalk");
+const { MessageFlags } = require("discord.js");
 
 module.exports = {
   name: "interactionCreate",
@@ -7,10 +7,11 @@ module.exports = {
       const { commands } = client;
       const { commandName, user } = interaction;
       const command = commands.get(commandName);
-      let Profile = await client.createProfile(user.id);
+      let banned = await client.createProfile(user.id, "botBanned");
 
+      if (banned) return;
       if (!command) return;
-      if (Profile.botBanned) return;
+        
 
       try {
         // Check if the command is on cooldown for that guild
@@ -37,9 +38,10 @@ module.exports = {
 
         await command.execute(interaction, client);
         // Add the command to the user's commands ran
-        Profile.updateOne({
-          $inc: { [`commandsRan.${command.name}`]: 1 },
-        });
+        await client.query(
+          `UPDATE users SET commandsRan = JSON_SET(commandsRan, '$.${commandName}', COALESCE(JSON_EXTRACT(commandsRan, '$.${commandName}'), 0) + 1) WHERE userId = ?`,
+          [user.id]
+        );
 
         // Put the user on cooldown
         if (command.cooldown) {

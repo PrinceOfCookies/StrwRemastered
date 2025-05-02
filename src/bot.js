@@ -1,7 +1,10 @@
 require("dotenv").config();
 
-const { TOKEN, MONGOTOKEN } = process.env;
-const { connect, mongoose } = require("mongoose");
+const { TOKEN, SQL_HOST, SQL_USER, SQL_PASSWORD, SQL_PORT, SQL_DATABASE } =
+  process.env;
+const mysql = require("mysql");
+const chalk = require("chalk");
+
 const {
   Client,
   Collection,
@@ -9,7 +12,6 @@ const {
   ActivityType,
 } = require("discord.js");
 const { readdirSync } = require("fs");
-mongoose.set("strictQuery", true);
 
 const client = new Client({
   intents: [
@@ -57,28 +59,49 @@ client.commandArray = [];
 
 const funcFolders = readdirSync("./src/functions");
 
-const loadOrder = ["tools", "wfm", "handlers"]; // Define the desired load order
+const loadOrder = ["tools", "gmod", "wfm", "handlers"]; // Define the desired load order
 
 for (const folder of loadOrder) {
   if (funcFolders.includes(folder)) {
+    // If the file is manageSettings.js, skip it
     const funcFiles = readdirSync(`./src/functions/${folder}`).filter((file) =>
       file.endsWith(".js")
     );
 
     for (const file of funcFiles) {
+      if (file === "manageSettings.js") continue;
+      console.log(`Loading function: ${folder}/${file}`);
       require(`./functions/${folder}/${file}`)(client);
     }
   }
 }
 
-client.handleEvents().then(async () => {
+client.handleCommands().then(async () => {
+  await client.handleEvents();
 
-  await client.wfmlogin();
-  await client.getWFMItems();
-  
-  client.handleCommands();
+  //await client.wfmlogin();
+  //await client.getWFMItems();
 });
 
-connect(MONGOTOKEN).then(() => {
-  client.login(TOKEN);
+client.login(TOKEN).then(async () => {
+  client.connection = mysql.createConnection({
+    host: SQL_HOST,
+    user: SQL_USER,
+    password: SQL_PASSWORD,
+    port: SQL_PORT,
+    database: SQL_DATABASE,
+  });
+
+  client.connection.connect((err) => {
+    if (err) {
+      console.error(chalk.red("Error connecting to the database: " + err));
+      return;
+    }
+    console.log(chalk.green("Connected to the database!"));
+  });
+
+  require(`./functions/tools/manageSettings.js`)(client);
+  console.log(chalk.green("Loaded manageSettings.js"));
+
+  await client.setupWebSocket();
 });

@@ -1,6 +1,5 @@
 const { readdirSync } = require("fs");
 const { white } = require("chalk");
-const { connection } = require("mongoose");
 
 module.exports = (client) => {
   client.handleEvents = async () => {
@@ -11,50 +10,38 @@ module.exports = (client) => {
         file.endsWith(".js")
       );
 
-      switch (folder) {
-        case "Client":
-          for (const file of eventFiles) {
-            const start = Math.floor(Date.now());
-            const event = require(`../../events/${folder}/${file}`);
-            let color = event.color;
-            let name = event.name;
+      for (const file of eventFiles) {
+        const start = Math.floor(Date.now());
+        const event = require(`../../events/${folder}/${file}`);
+        let color = event.color === undefined ? white : event.color;
+        let name = event.name;
 
-            if (color == undefined) {
-              color = white;
-              console.error("No color provided for event: " + name);
-            }
-
+        switch (folder) {
+          case "Client":
             if (event.once) {
               client.once(name, (...args) => event.execute(...args, client));
-              return await client.fastLog(`${folder} Event`, color, name, start);
+              break;
             }
 
             client.on(name, (...args) => event.execute(...args, client));
-            await client.fastLog(`${folder} Event`, color, name, start);
-          }
-          break;
-        case "Mongo":
-          for (const file of eventFiles) {
-            const start = Math.floor(Date.now());
-            const event = require(`../../events/${folder}/${file}`);
-            let color = event.color;
-            let name = event.name;
+            client.fastLog(`${folder} Event`, color, name, start);
+            break;
+          case "SQL":
+            // if (event.once) {
+            //   client.connection.once(name, (...args) =>
+            //     event.execute(...args, client)
+            //   );
+            // }
 
-            if (event.once) {
-              connection.once(name, (...args) =>
-                event.execute(...args, client)
-              );
-              return await client.fastLog(`${folder} Event`, color, name, start);
-            }
-
-            connection.on(name, (...args) => event.execute(...args, client));
-            await client.fastLog(`${folder} Event`, color, name, start);
-          }
-          break;
-
-        default:
-          console.log("Invalid event: " + folder);
-          break;
+            // client.connection.on(name, (...args) =>
+            //   event.execute(...args, client)
+            // );
+            // client.fastLog(`${folder} Event`, color, name, start);
+            break;
+          default:
+            console.error(`Unknown event folder: ${folder}`);
+            break;
+        }
       }
     }
   };

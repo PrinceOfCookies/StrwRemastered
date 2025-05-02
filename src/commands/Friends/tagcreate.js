@@ -1,14 +1,15 @@
 const { SlashCommandBuilder, MessageFlags } = require("discord.js");
-const TagSchema = require(`../../schemas/tags`);
-const mongoose = require("mongoose");
-const chalk = require("chalk");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("tagcreate")
     .setDescription("Command to Create a tag")
     .addStringOption((option) =>
-      option.setName("tagname").setDescription("Name Of Tag").setRequired(true)
+      option
+        .setName("tagname")
+        .setDescription("Name Of Tag")
+        .setRequired(true)
+        .setMaxLength(100)
     )
     .addStringOption((option) =>
       option
@@ -17,33 +18,30 @@ module.exports = {
         .setRequired(true)
     ),
 
-  async execute(interaction) {
+  async execute(interaction, client) {
     const { options } = interaction;
 
     const tag_name = options.getString("tagname");
     const tag_content = options.getString("tagcontent");
-    let TagSchem = await TagSchema.findOne({
-      tagName: options.getString("tagname"),
-    });
+    let tag = await client.query(
+      `SELECT createdBy FROM tags WHERE tagName = ?`,
+      [tag_name]
+    );
 
-    if (TagSchem) {
+    if (tag[0]) {
       return interaction.reply({
-        content: `A tag with the name ${tag_name} already exists, it was made by <@${TagSchem.createdBy}> on!`,
+        content: `A tag with the name ${tag_name} already exists, it was made by <@${tag[0].createdBy}> on!`,
       });
     } else {
-      TagSchem = await new TagSchema({
-        _id: mongoose.Types.ObjectId(),
-        createdBy: interaction.user.id,
-        tagName: tag_name,
-        tagContent: tag_content,
-      });
+      await client.query(
+        `INSERT INTO tags (tagName, tagContent, createdBy) VALUES (?, ?, ?)`,
+        [tag_name, tag_content, interaction.user.id]
+      );
     }
 
     await interaction.reply({
       content: `Tag ${tag_name} successfully created!`,
     });
-
-    await TagSchem.save().catch(console.error);
   },
   color: "#DEADED",
   allowRoles: [

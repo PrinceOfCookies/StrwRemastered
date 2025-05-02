@@ -1,6 +1,4 @@
 const { SlashCommandBuilder, MessageFlags } = require("discord.js");
-const TagSchema = require(`../../schemas/tags`);
-const chalk = require("chalk");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -10,24 +8,25 @@ module.exports = {
       option.setName("tagname").setDescription("Name Of Tag").setRequired(true)
     ),
 
-  async execute(interaction) {
+  async execute(interaction, client) {
     const { options } = interaction;
 
     const tag_name = options.getString("tagname");
-    let TagSchem = await TagSchema.findOne({
-      tagName: tag_name,
-    });
 
-    if (!TagSchem) {
+    let tag = await client.query(
+      `SELECT tagContent FROM tags WHERE tagName = ?`, [tag_name]
+    );
+
+    if (!tag[0]) {
       return await interaction.reply({
         content: `Tag non existant!`,
       });
     } else {
       return await interaction.reply({
-        content: TagSchem.tagContent,
+        content: tag[0].tagContent,
       });
     }
   },
-  cooldown: 10,
+  cooldown: 5,
   color: "#DEADED",
 };

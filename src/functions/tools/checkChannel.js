@@ -1,7 +1,5 @@
 const Parser = require("rss-parser");
 const parser = new Parser();
-const vids = require("../../schemas/videos");
-const mongoose = require("mongoose");
 
 module.exports = async (client) => {
   client.checkChannel = async (channelID) => {
@@ -22,29 +20,40 @@ module.exports = async (client) => {
     // console.log(data)
     let { title, link, id, author } = data.items[0];
 
-    let video = await vids.findOne({ ID: id });
+    let video = client.query("SELECT ID FROM videos WHERE ID = ?", [id]);
+    if (video.length > 0) {
+      console.log(`Video already exists in database: ${id}`);
+      return false;
+    }
 
     if (!video) {
       console.log(`Video doesnt exist in database. Adding: ${id}`);
 
-      const newVideo = new vids({
-        _id: mongoose.Types.ObjectId(),
-        channelID: channelID,
-        ID: id,
-        title: title,
-        author: author,
-        link: link,
-        thumbnail: `https://img.youtube.com/vi/${id.slice(
-          9
-        )}/maxresdefault.jpg`,
-        channelURL: `https://www.youtube.com/channel/${channelID}`,
-        used: false,
-        noVote: [],
-        yesVote: [],
-      });
+      const newVideo = client.query(
+        "INSERT INTO videos (ID, channelID, title, author, link, thumbnail, channelURL, used, noVote, yesVote) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+          id,
+          channelID,
+          title,
+          author,
+          link,
+          `https://img.youtube.com/vi/${id.slice(9)}/maxresdefault.jpg`,
+          `https://www.youtube.com/channel/${channelID}`,
+          false,
+          JSON.stringify([]),
+          JSON.stringify([]),
+        ]
+      );
 
-      await newVideo.save().catch((err) => console.error(err));
-      return newVideo.ID;
+      if (newVideo.affectedRows > 0) {
+        const newVideoData = await client.query(
+          "SELECT ID FROM videos WHERE ID = ?",
+          [id]
+        );
+        return newVideoData[0].ID;
+      } else {
+        return false;
+      } 
     } else {
       return false;
     }

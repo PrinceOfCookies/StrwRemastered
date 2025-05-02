@@ -4,7 +4,6 @@ const {
   EmbedBuilder,
   MessageFlags
 } = require("discord.js");
-const chalk = require("chalk");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -25,18 +24,22 @@ module.exports = {
 
     const user = options.getUser("user") || interaction.user;
     const balance = options.getInteger("balance");
-
-    const Profile = await client.checkProfile(user);
-
     const embed = new EmbedBuilder().setColor("#5FB041");
 
-    await Profile.updateOne({ balance: balance });
+    await client.query(
+      "UPDATE users SET balance = ? WHERE user_id = ?",
+      [balance, user.id]
+    );
 
     embed.setDescription(
       `Successfully set ${user.username}'s balance to ${balance}`
     );
 
-    interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
+    // interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
+    return await interaction.reply({
+      embeds: [embed],
+      flags: MessageFlags.Ephemeral,
+    });
   },
   color: "#DEADED",
   allowRoles: ["1137095530669932665"], // Strawhat OW Role

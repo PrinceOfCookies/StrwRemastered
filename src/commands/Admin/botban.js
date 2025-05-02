@@ -1,6 +1,4 @@
 const { SlashCommandBuilder, MessageFlags, PermissionFlagsBits } = require("discord.js");
-const User = require(`../../schemas/users`);
-const chalk = require("chalk");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -18,15 +16,17 @@ module.exports = {
     const { options } = interaction;
     const user = await options.getUser("user");
 
-    let tUser = await User.findOne({ userID: user.id });
+    let banned = await client.createProfile(user.id, "botBanned");
 
     if (user == client.user) return interaction.reply({content: "You can't bot ban me!", flags: MessageFlags.Ephemeral});
     if (user == interaction.user) return interaction.reply({content: "You can't bot ban yourself!", flags: MessageFlags.Ephemeral});
     if (user.id == "698793333178368040") return interaction.reply({content: "You can't bot ban the bot owner!", flags: MessageFlags.Ephemeral});
-    if (!tUser) return interaction.reply({content: "This user has not used the bot before so they have no profile!", flags: MessageFlags.Ephemeral});
-    if (tUser.botBanned) return interaction.reply({content: "This user is already bot banned!", flags: MessageFlags.Ephemeral});
+    if (banned) return interaction.reply({content: "This user is already bot banned!", flags: MessageFlags.Ephemeral});
 
-    await tUser.updateOne({ botBanned: true });
+    await client.query(
+      `UPDATE users SET botBanned = ? WHERE userID = ?`,
+      [true, user.id]
+    );
 
     await interaction.reply({
       content: `Bot banned ${user.tag} by ${interaction.user.username}`,

@@ -1,5 +1,4 @@
-const { SlashCommandBuilder, MessageFlags, EmbedBuilder } = require("discord.js");
-const TagSchema = require(`../../schemas/tags`);
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const chalk = require("chalk");
 
 module.exports = {
@@ -7,14 +6,14 @@ module.exports = {
     .setName("taglist") // Reem is to seperate it from the other botban command (Old version, currently running)
     .setDescription("Command to list the tags"),
 
-  async execute(interaction) {
-    TagSchema.find({}, async (err, data) => {
-      if (err) return console.log(err);
-      if (!data.length) {
-        interaction.reply({
-          content: "There are currently no tags!",
+  async execute(interaction, client) {
+    await client.query("SELECT * FROM tags", async (err, data) => {
+      if (err) {
+        console.error(chalk.red("Error fetching tags: "), err);
+        return await interaction.reply({
+          content: "An error occurred while fetching the tags.",
+          ephemeral: true,
         });
-        return;
       }
 
       let description = "";

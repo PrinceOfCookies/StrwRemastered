@@ -18,12 +18,7 @@ module.exports = (client) => {
         const command = require(`../../commands/${folder}/${file}`);
         const properties = { folder, ...command };
         let name = command.data.name;
-        let color = command.color;
-
-        if (!color) {
-          color = white;
-          console.error("No color provided for command: " + name);
-        }
+        let color = command.color || white;
 
         commands.set(command.data.name, properties);
         cooldowns.set(command.data.name, new Map());

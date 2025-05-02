@@ -4,7 +4,6 @@ const {
   EmbedBuilder,
   MessageFlags
 } = require("discord.js");
-const chalk = require("chalk");
 
 module.exports = {
   data: new SlashCommandBuilder()

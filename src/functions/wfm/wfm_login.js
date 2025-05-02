@@ -1,12 +1,12 @@
-const { user, email, password, WFM_JWT } = process.env;
+const { WFM_USER, WFM_EMAIL, WFM_PASSWORD, WFM_JWT } = process.env;
 const chalk = require("chalk");
 
 module.exports = async (client) => {
   client.wfmlogin = async () => {
     let body = JSON.stringify({
-      auth_type: user,
-      email: email,
-      password: password,
+      auth_type: WFM_USER,
+      email: WFM_EMAIL,
+      password: WFM_PASSWORD,
     });
 
     let headers = {

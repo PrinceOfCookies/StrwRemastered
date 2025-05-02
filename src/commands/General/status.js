@@ -2,7 +2,6 @@ const { SlashCommandBuilder, MessageFlags, EmbedBuilder, version } = require("di
 const moment = require("moment");
 const m = require("moment-duration-format");
 const os = require("os");
-const chalk = require("chalk");
 
 const colors = [
   "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF", "#FF00FF", "#C0C0C0",
