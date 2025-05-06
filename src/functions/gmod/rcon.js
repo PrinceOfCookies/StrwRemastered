@@ -7,7 +7,8 @@ let rcon = RCON({
 
 module.exports = (client) => {
   client.rconCmd = async (cmd) => {
-    if ((await client.getSetting("riddlesServer")) == false) return false;
+        let riddlesServer = await client.getSetting("riddlesServer");
+    if (riddlesServer == false) return false
 
     let response = [];
     let commands = cmd
@@ -28,7 +29,6 @@ module.exports = (client) => {
       }
 
       await rcon.disconnect();
-      console.log("Disconnected from RCON server");
     } catch (err) {
       console.error("RCON connection error:", err);
     }

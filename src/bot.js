@@ -70,7 +70,7 @@ for (const folder of loadOrder) {
 
     for (const file of funcFiles) {
       if (file === "manageSettings.js") continue;
-      console.log(`Loading function: ${folder}/${file}`);
+      // console.log(`Loading function: ${folder}/${file}`);
       require(`./functions/${folder}/${file}`)(client);
     }
   }
@@ -79,8 +79,8 @@ for (const folder of loadOrder) {
 client.handleCommands().then(async () => {
   await client.handleEvents();
 
-  //await client.wfmlogin();
-  //await client.getWFMItems();
+  await client.wfmlogin();
+  await client.getWFMItems();
 });
 
 client.login(TOKEN).then(async () => {

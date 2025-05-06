@@ -1,23 +1,23 @@
 module.exports = (client) => {
   client.getSetting = async (setting) => {
-    let dbSetting = client.query("SELECT * FROM settings WHERE setting = ?", [
+    let dbSetting = await client.query("SELECT * FROM settings WHERE setting = ?", [
       setting,
     ]);
 
     if (dbSetting.length > 0) {
-      return dbSetting[0].value;
+      return Boolean(dbSetting[0].value);
     } else {
       return false;
     }
   };
 
   client.setSetting = async (setting, value) => {
-    let dbSetting = client.query("SELECT * FROM settings WHERE setting = ?", [
+    let dbSetting = await client.query("SELECT * FROM settings WHERE setting = ?", [
       setting,
     ]);
 
     if (dbSetting.length > 0) {
-      const updatedSetting = client.query(
+      const updatedSetting = await client.query(
         "UPDATE settings SET value = ? WHERE setting = ?",
         [value, setting]
       );

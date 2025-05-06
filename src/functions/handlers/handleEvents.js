@@ -20,6 +20,7 @@ module.exports = (client) => {
           case "Client":
             if (event.once) {
               client.once(name, (...args) => event.execute(...args, client));
+              client.fastLog(`${folder} Event`, color, name, start);
               break;
             }
 

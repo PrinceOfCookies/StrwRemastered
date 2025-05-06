@@ -20,7 +20,7 @@ module.exports = async (client) => {
     // console.log(data)
     let { title, link, id, author } = data.items[0];
 
-    let video = client.query("SELECT ID FROM videos WHERE ID = ?", [id]);
+    let video = await client.query("SELECT ID FROM videos WHERE ID = ?", [id]);
     if (video.length > 0) {
       console.log(`Video already exists in database: ${id}`);
       return false;
@@ -29,7 +29,7 @@ module.exports = async (client) => {
     if (!video) {
       console.log(`Video doesnt exist in database. Adding: ${id}`);
 
-      const newVideo = client.query(
+      const newVideo = await client.query(
         "INSERT INTO videos (ID, channelID, title, author, link, thumbnail, channelURL, used, noVote, yesVote) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [
           id,

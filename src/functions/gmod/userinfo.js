@@ -1,6 +1,7 @@
 module.exports = (client) => {
   client.userinfo = async (discordid, steamid) => {
-    if ((await client.getSetting("riddlesServer")) == false) return false;
+        let riddlesServer = await client.getSetting("riddlesServer");
+    if (riddlesServer == false) return false
 
     let idToUse = discordid;
     let tag = "Not linked";

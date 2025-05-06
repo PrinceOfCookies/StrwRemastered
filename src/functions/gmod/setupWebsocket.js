@@ -2,7 +2,8 @@ const WebSocket = require("ws");
 
 module.exports = (client) => {
   client.setupWebSocket = async () => {
-    if ((await client.getSetting("riddlesServer")) == false) return false;
+        let riddlesServer = await client.getSetting("riddlesServer");
+    if (riddlesServer == false) return false
 
     const connect = () => {
       const ws = new WebSocket(process.env.WS_URL);

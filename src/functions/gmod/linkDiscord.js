@@ -2,7 +2,8 @@ const chalk = require("chalk");
 
 module.exports = (client) => {
   client.claimdiscord = async (IDID, code) => {
-    if ((await client.getSetting("riddlesServer")) == false) return false;
+        let riddlesServer = await client.getSetting("riddlesServer");
+    if (riddlesServer == false) return false
 
     let row,
       message,
