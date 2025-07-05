@@ -2,7 +2,7 @@ const { SlashCommandBuilder, MessageFlags } = require("discord.js");
 const chalk = require("chalk");
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("encodebin") // Reem is to seperate it from the other botban command (Old version, currently running)
+    .setName("encodebin") 
     .setDescription("Encode text to binary")
     .addStringOption((option) =>
       option

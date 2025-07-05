@@ -12,7 +12,7 @@ const colors = [
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("status") // Reem is to seperate it from the other botban command (Old version, currently running)
+    .setName("status") 
     .setDescription("status someone"),
   async execute(interaction, client) {
     function randomColor() {

@@ -43,7 +43,7 @@ const songs = {
 };
 
 const songSlashCommand = new SlashCommandBuilder()
-  .setName("reemrammstein") // Reem is to seperate it from the other botban command (Old version, currently running)
+  .setName("reemrammstein") 
   .setDescription("rammstein SONGS");
 
 Object.keys(songs).forEach((songName) => {

@@ -10,7 +10,7 @@ const chalk = require("chalk");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("vidpoll") // Reem is to seperate it from the other botban command (Old version, currently running)
+    .setName("vidpoll") 
     .setDescription("[DISABLED] Starts a poll for the video")
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
 

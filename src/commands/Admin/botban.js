@@ -2,7 +2,7 @@ const { SlashCommandBuilder, MessageFlags, PermissionFlagsBits } = require("disc
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("botban") // Reem is to seperate it from the other botban command (Old version, currently running)
+    .setName("botban") 
     .setDescription("Botban a user from using the bot")
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addUserOption((option) =>

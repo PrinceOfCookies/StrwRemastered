@@ -2,7 +2,7 @@ const { SlashCommandBuilder, MessageFlags } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("tag") // Reem is to seperate it from the other botban command (Old version, currently running)
+    .setName("tag") 
     .setDescription("Command to use a tag")
     .addStringOption((option) =>
       option.setName("tagname").setDescription("Name Of Tag").setRequired(true)

@@ -7,7 +7,7 @@ const {
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("setbal") // Reem is to seperate it from the other botban command (Old version, currently running)
+    .setName("setbal") 
     .setDescription("Set a users balance.")
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
     .addIntegerOption((option) =>

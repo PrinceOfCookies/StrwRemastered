@@ -2,7 +2,7 @@ const { SlashCommandBuilder, MessageFlags, EmbedBuilder } = require("discord.js"
 const chalk = require("chalk");
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("mcskin") // Reem is to seperate it from the other botban command (Old version, currently running)
+    .setName("mcskin") 
     .setDescription("Gets a players minecraft skin based off their name")
     .addStringOption((option) =>
       option
