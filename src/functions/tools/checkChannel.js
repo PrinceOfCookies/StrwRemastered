@@ -6,56 +6,66 @@ module.exports = async (client) => {
     console.log(
       `Checking channel: https://www.youtube.com/feeds/videos.xml?channel_id=${channelID}`
     );
-    const data = await parser
-      .parseURL(
+
+    let data;
+    try {
+      data = await parser.parseURL(
         `https://www.youtube.com/feeds/videos.xml?channel_id=${channelID}`
-      )
-      .catch((err) => console.error(err));
-
-    if (!data) {
-      console.log(`Data: ${data}`);
-      return false;
-    }
-
-    // console.log(data)
-    let { title, link, id, author } = data.items[0];
-
-    let video = await client.query("SELECT ID FROM videos WHERE ID = ?", [id]);
-    if (video.length > 0) {
-      console.log(`Video already exists in database: ${id}`);
-      return false;
-    }
-
-    if (!video) {
-      console.log(`Video doesnt exist in database. Adding: ${id}`);
-
-      const newVideo = await client.query(
-        "INSERT INTO videos (ID, channelID, title, author, link, thumbnail, channelURL, used, noVote, yesVote) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        [
-          id,
-          channelID,
-          title,
-          author,
-          link,
-          `https://img.youtube.com/vi/${id.slice(9)}/maxresdefault.jpg`,
-          `https://www.youtube.com/channel/${channelID}`,
-          false,
-          JSON.stringify([]),
-          JSON.stringify([]),
-        ]
       );
-
-      if (newVideo.affectedRows > 0) {
-        const newVideoData = await client.query(
-          "SELECT ID FROM videos WHERE ID = ?",
-          [id]
-        );
-        return newVideoData[0].ID;
-      } else {
-        return false;
-      } 
-    } else {
+    } catch (err) {
+      console.error("Failed to parse feed:", err);
       return false;
     }
+
+    if (!data || !data.items || data.items.length === 0) {
+      console.log("No videos found in feed.");
+      return false;
+    }
+
+    const firstItem = data.items[0];
+    const { title, link, id: fullId, author } = firstItem;
+
+    const videoId = fullId.replace("yt:video:", "");
+
+    console.log(`Video ID: ${videoId}`);
+    console.log(`Video Title: ${title}`);
+    console.log(`Video Link: ${link}`);
+    console.log(`Video Author: ${author?.name || "Unknown"}`);
+
+    const existing = await client.query("SELECT ID FROM videos WHERE ID = ?", [
+      fullId,
+    ]);
+
+    if (existing.length > 0) {
+      console.log(`Video already exists in database: ${fullId}`);
+      return false;
+    }
+
+    console.log(`Video doesn't exist in database. Adding: ${fullId}`);
+
+    const insert = await client.query(
+      "INSERT INTO videos (ID, channelID, title, author, link, thumbnail, channelURL, used, noVote, yesVote) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [
+        fullId,
+        channelID,
+        title,
+        author?.name || "Unknown",
+        link,
+        `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
+        `https://www.youtube.com/channel/${channelID}`,
+        false,
+        JSON.stringify([]),
+        JSON.stringify([]),
+      ]
+    );
+
+    if (insert.affectedRows > 0) {
+      const newRow = await client.query("SELECT ID FROM videos WHERE ID = ?", [
+        fullId,
+      ]);
+      return newRow[0]?.ID || false;
+    }
+
+    return false;
   };
 };
