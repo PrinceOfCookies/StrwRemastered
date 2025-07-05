@@ -16,7 +16,7 @@ module.exports = {
         .setDescription("The ID of the channel to clear messages from.")
         .setRequired(true)
     ),
-  async execute(interaction) {
+  async execute(interaction, client) {
     const { options } = interaction;
 
     const channelId = options.getString("channelid");
