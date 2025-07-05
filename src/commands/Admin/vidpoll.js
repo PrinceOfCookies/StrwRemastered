@@ -51,7 +51,7 @@ module.exports = {
       .setDescription("What did you think of it? React with buttons below.")
       .setImage(video.thumbnail)
       .setAuthor({
-        name: video.author,
+        name: "lifeline4603",
         iconURL:
           "https://cdn.discordapp.com/avatars/890994028672319499/7750e3babbad5a777159c67668b3e649.webp",
         url: `https://www.youtube.com/channel/${channelID}`,

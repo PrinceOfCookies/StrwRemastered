@@ -86,4 +86,5 @@ module.exports = {
     }
   },
   color: "#DEADED",
+  allowRoles: ["1120733358784266302"], // GA Role
 };
