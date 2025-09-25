@@ -104,4 +104,5 @@ client.login(TOKEN).then(async () => {
   console.log(chalk.green("Loaded manageSettings.js"));
 
   await client.setupWebSocket();
+  await client.setupStatusWebSocket();
 });
