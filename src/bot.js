@@ -59,7 +59,7 @@ client.commandArray = [];
 
 const funcFolders = readdirSync("./src/functions");
 
-const loadOrder = ["tools", "gmod", "wfm", "handlers"]; // Define the desired load order
+const loadOrder = ["tools", "dashboard", "gmod", "wfm", "handlers"]; // Define the desired load order
 
 for (const folder of loadOrder) {
   if (funcFolders.includes(folder)) {
