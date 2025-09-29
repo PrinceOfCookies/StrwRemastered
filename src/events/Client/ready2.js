@@ -14,7 +14,7 @@ module.exports = {
       } catch (error) {
         console.error("Error sending server status:", error);
       }
-    }, 15000);
+    }, 60000);
   },
   color: "#424de9ff",
 };
