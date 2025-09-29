@@ -59,7 +59,7 @@ client.commandArray = [];
 
 const funcFolders = readdirSync("./src/functions");
 
-const loadOrder = ["tools", "dashboard", "gmod", "wfm", "handlers"]; // Define the desired load order
+const loadOrder = ["tools", "gmod", "wfm", "handlers"]; // Define the desired load order
 
 for (const folder of loadOrder) {
   if (funcFolders.includes(folder)) {
@@ -70,7 +70,6 @@ for (const folder of loadOrder) {
 
     for (const file of funcFiles) {
       if (file === "manageSettings.js") continue;
-      // console.log(`Loading function: ${folder}/${file}`);
       require(`./functions/${folder}/${file}`)(client);
     }
   }
@@ -104,5 +103,4 @@ client.login(TOKEN).then(async () => {
   console.log(chalk.green("Loaded manageSettings.js"));
 
   await client.setupWebSocket();
-  await client.setupStatusWebSocket();
 });
