@@ -10,10 +10,9 @@ module.exports = {
     ),
   async execute(interaction) {
     const user = interaction.options.getUser("user") || interaction.user;
+    if (!user) return;
 
-    if (!user) return interaction.reply({ content: "User not found!", flags: MessageFlags.Ephemeral }); 
-
-    return await interaction.reply({
+    await interaction.reply({
       content: user.displayAvatarURL({ dynamic: true, size: 4096 }),
     });
   },
