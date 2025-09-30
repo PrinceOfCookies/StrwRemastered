@@ -1,4 +1,10 @@
-const { MessageFlags } = require("discord.js");
+const {
+  MessageFlags,
+  EmbedBuilder,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+} = require("discord.js");
 
 module.exports = {
   name: "interactionCreate",
@@ -7,54 +13,55 @@ module.exports = {
       const { commands } = client;
       const { commandName, user } = interaction;
       const command = commands.get(commandName);
-      let banned = await client.createProfile(user.id, "botBanned");
 
-      if (banned) return;
-      if (!command) return;
-        
+      const banned = await client.createProfile(user.id, "botBanned");
+      if (banned || !command) return;
 
       try {
-        // Check if the command is on cooldown for that guild
-        if (command.cooldown) {
-          if (client.cooldowns.has(`${user.id}-${command.name}`)) {
-            const timeLeft = client.cooldowns.get(`${user.id}-${command.name}`);
-            let timeleft = timeLeft * 0.001 - Math.floor(Date.now() * 0.001);
+        if (
+          command.allowRoles &&
+          !command.allowRoles.some((role) =>
+            interaction.member.roles.cache.has(role)
+          )
+        ) {
+          return await interaction.reply({
+            content: "You don't have the required role to use this command!",
+            flags: MessageFlags.Ephemeral,
+          });
+        }
 
+        if (command.cooldown) {
+          const key = `${user.id}-${commandName}`;
+          const now = Date.now();
+          const expires = client.cooldowns.get(key);
+
+          console.log(expires, now);
+          if (expires && expires > now) {
+            const remaining = Math.ceil((expires - now) / 1000);
             return await interaction.reply({
-              content: `You are on cooldown for this command! Please wait ${Math.floor(
-                timeleft
-              )} more second(s) before using this command again!`,
+              content: `You are on cooldown for this command! Please wait ${remaining} second(s).`,
               flags: MessageFlags.Ephemeral,
             });
           }
+
+          const expireTime = Date.now() + command.cooldown * 1000;
+
+          console.log(`Setting cooldown for ${key} to expire at ${expireTime}`);
+
+          client.cooldowns.set(key, expireTime);
+          setTimeout(
+            () => client.cooldowns.delete(key),
+            command.cooldown * 1000
+          );
         }
 
-        if (command.allowRoles && !command.allowRoles.some((role => interaction.member.roles.cache.has(role)))) {
-            return await interaction.reply({
-              content: `You don't have the required role to use this command!`,
-              flags: MessageFlags.Ephemeral,
-            });
-        }
-
+        // Execute command
         await command.execute(interaction, client);
-        // Add the command to the user's commands ran
-        await client.query(
-          `UPDATE users SET commandsRan = JSON_SET(commandsRan, '$.${commandName}', COALESCE(JSON_EXTRACT(commandsRan, '$.${commandName}'), 0) + 1) WHERE userId = ?`,
-          [user.id]
-        );
-
-        // Put the user on cooldown
-        if (command.cooldown) {
-          const cd = command.cooldown * 1000;
-          client.cooldowns.set(`${user.id}-${command.name}`, Date.now() + cd);
-          setTimeout(() => {
-            client.cooldowns.delete(`${user.id}-${command.name}`);
-          }, cd);
-        }
+        await client.incrementCommandRun(user.id, commandName);
       } catch (error) {
-        console.log(error);
-        await interaction.reply({
-          content: `Something went wrong while executing this command!`,
+        console.error(error);
+        return await interaction.reply({
+          content: "Something went wrong while executing this command!",
           flags: MessageFlags.Ephemeral,
         });
       }
@@ -62,79 +69,68 @@ module.exports = {
       const { buttons } = client;
       const { customId } = interaction;
       const button = buttons.get(customId);
-      if (!button) return new Error("There is no code for this button");
+      if (!button) return;
+
+      async function handleVote(video, userId, voteType) {
+        const opposite = voteType === "yesVote" ? "noVote" : "yesVote";
+        if (video[voteType].includes(userId)) return false; // already voted
+        if (video[opposite].includes(userId)) {
+          video[opposite] = video[opposite].filter((id) => id !== userId);
+        }
+        video[voteType].push(userId);
+        await video.updateOne({ yesVote: video.yesVote, noVote: video.noVote });
+        return true;
+      }
+
+      function createVoteButtons(disabled = false) {
+        return new ActionRowBuilder().addComponents(
+          new ButtonBuilder()
+            .setCustomId("yes")
+            .setLabel("Good")
+            .setEmoji("👍")
+            .setStyle(ButtonStyle.Success)
+            .setDisabled(disabled),
+          new ButtonBuilder()
+            .setCustomId("no")
+            .setLabel("Bad")
+            .setEmoji("👎")
+            .setStyle(ButtonStyle.Danger)
+            .setDisabled(disabled),
+          new ButtonBuilder()
+            .setCustomId("feedback")
+            .setLabel("Give Feedback")
+            .setEmoji("📝")
+            .setStyle(ButtonStyle.Primary)
+            .setDisabled(disabled)
+        );
+      }
 
       switch (customId) {
         case "yes":
-          // Check if the user has already voted
-          if (video.yesVote.includes(nbutton.user.id)) {
-            return await videoschannel.send({
-              content: "You have already voted!",
-              flags: MessageFlags.Ephemeral,
-            });
-          } else if (video.noVote.includes(nbutton.user.id)) {
-            await videoschannel.send({
-              content: "You've changed your vote to good!",
-              flags: MessageFlags.Ephemeral,
-            });
-
-            // Remove the user from the noVote array
-            await video.updateOne({
-              noVote: video.noVote.filter((id) => id !== nbutton.user.id),
-            });
-            // Add the user to the yesVote array
-            await video.updateOne({
-              yesVote: video.yesVote.push(nbutton.user.id),
-            });
+          if (!(await handleVote(video, interaction.user.id, "yesVote"))) {
+            return await interaction.reply({ content: "You already voted!" });
           }
+          return await interaction.reply({ content: "You voted good!" });
 
-          await videoschannel.send({
-            content: "You voted good!",
-            flags: MessageFlags.Ephemeral,
-          });
-
-          break;
         case "no":
-          // Check if the user has already voted
-          if (video.noVote.includes(nbutton.user.id)) {
-            return await videoschannel.send({
-              content: "You have already voted!",
-              flags: MessageFlags.Ephemeral,
-            });
-          } else if (video.yesVote.includes(nbutton.user.id)) {
-            await videoschannel.send({
-              content: "You've changed your vote to bad!",
-              flags: MessageFlags.Ephemeral,
-            });
-
-            // Remove the user from the yesVote array
-            await video.updateOne({
-              yesVote: video.yesVote.filter((id) => id !== nbutton.user.id),
-            });
-            // Add the user to the noVote array
-            await video.updateOne({
-              noVote: video.noVote.push(nbutton.user.id),
-            });
+          if (!(await handleVote(video, interaction.user.id, "noVote"))) {
+            return await interaction.reply({ content: "You already voted!" });
           }
-          await videoschannel.send({
-            content: "You voted bad!",
-            flags: MessageFlags.Ephemeral,
+          return await interaction.reply({ content: "You voted bad!" });
+
+        case "feedback":
+          return await interaction.reply({
+            content: "Button currently doesn't work",
           });
 
-          break;
-        case "feedback":
-          await videoschannel.send({
-            content: "Button currently doesnt work",
-            flags: MessageFlags.Ephemeral,
-          });
-          break;
         case "nopost":
-          await button.update({
+          return await button.update({
             content: "Video not posted",
-            components: [disabledPostButton],
+            components: [createVoteButtons(true)],
           });
+
         case "post":
-          let embed = new EmbedBuilder()
+          const embed = new EmbedBuilder()
             .setColor(0x5fb041)
             .setTitle(video.title)
             .setDescription(
@@ -148,59 +144,20 @@ module.exports = {
               url: video.channelURL,
             })
             .setFooter({
-              text: "Video poll posted by " + button.user.tag,
+              text: `Video poll posted by ${button.user.tag}`,
               iconURL: button.user.avatarURL(),
             });
 
-          let voteButtons = new ActionRowBuilder().addComponents(
-            new ButtonBuilder()
-              .setCustomId("yes")
-              .setLabel("Good")
-              .setEmoji("👍")
-              .setStyle(ButtonStyle.Success),
-
-            new ButtonBuilder()
-              .setCustomId("no")
-              .setLabel("Bad")
-              .setEmoji("👎")
-              .setStyle(ButtonStyle.Danger),
-
-            new ButtonBuilder()
-              .setCustomId("feedback")
-              .setLabel("Give Feedback")
-              .setEmoji("📝")
-              .setStyle(ButtonStyle.Primary)
-          );
-
-          let disabledPostButton = new ActionRowBuilder().addComponents(
-            new ButtonBuilder()
-              .setCustomId("post")
-              .setLabel("Post Video Poll")
-              .setEmoji("✔")
-              .setStyle(ButtonStyle.Success)
-              .setDisabled(true),
-
-            new ButtonBuilder()
-              .setCustomId("nopost")
-              .setLabel("No Video Poll")
-              .setEmoji("❌")
-              .setStyle(ButtonStyle.Danger)
-              .setDisabled(true),
-
-            new ButtonBuilder()
-              .setCustomId("feedback")
-              .setLabel("Give Feedback")
-              .setEmoji("📝")
-              .setStyle(ButtonStyle.Primary)
-              .setDisabled(true)
-          );
-
           await button.update({
             content: "Video posted",
-            components: [disabledPostButton],
+            components: [createVoteButtons(true)],
           });
+          break;
+
+        default:
+          console.warn(`Unhandled button: ${customId}`);
       }
     }
   },
-  color: "#ff0000", // Bright red color
+  color: "#ff0000",
 };
