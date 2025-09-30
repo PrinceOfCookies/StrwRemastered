@@ -1,7 +1,7 @@
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const { readdirSync } = require("fs");
-const {  white, blue, yellow } = require("chalk");
+const { white, blue, yellow } = require("chalk");
 
 module.exports = (client) => {
   client.handleCommands = async () => {
@@ -9,22 +9,25 @@ module.exports = (client) => {
     const commandFolders = readdirSync("./src/commands");
 
     for (const folder of commandFolders) {
-      let start = Math.floor(Date.now());
-      const commandFiles = readdirSync(`./src/commands/${folder}`).filter(
-        (file) => file.endsWith(".js")
+      const commandFiles = readdirSync(`./src/commands/${folder}`).filter((file) =>
+        file.endsWith(".js")
       );
 
       for (const file of commandFiles) {
+        const start = process.hrtime.bigint(); // ns
         const command = require(`../../commands/${folder}/${file}`);
         const properties = { folder, ...command };
-        let name = command.data.name;
-        let color = command.color || white;
+        const name = command.data.name;
+        const color = command.color || white;
 
-        commands.set(command.data.name, properties);
-        cooldowns.set(command.data.name, new Map());
+        commands.set(name, properties);
+        cooldowns.set(name, new Map());
         commandArray.push(command.data.toJSON());
 
-        await client.fastLog(`${folder} Command`, color, name, start)
+        const end = process.hrtime.bigint();
+        const durationMs = Number(end - start) / 1000000; // Convert to MS
+
+        await client.fastLog(`${folder} Command`, color, name, durationMs);
       }
     }
 
@@ -33,15 +36,11 @@ module.exports = (client) => {
 
     try {
       console.log(blue("Started refreshing application (/) commands."));
-      const start = Math.floor(Date.now());
-      await rest.put(Routes.applicationCommands(clientID), {
-        body: commandArray,
-      });
-      const end = Math.floor(Date.now());
-      console.log(
-        blue("Successfully reloaded application (/) commands in ") +
-          yellow(end - start + "ms")
-      );
+      const start = process.hrtime.bigint(); // ns
+      await rest.put(Routes.applicationCommands(clientID), { body: commandArray });
+      const end = process.hrtime.bigint();
+      const durationMs = Number(end - start) / 1000000; // Convert to MS
+      console.log(blue(`Successfully reloaded application (/) commands in `) + yellow(`${durationMs.toFixed(3)}ms`));
     } catch (er) {
       console.error(er);
     }
