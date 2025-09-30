@@ -9,9 +9,8 @@ module.exports = (client) => {
       const name = event.name;
       const color = event.color ?? white;
 
-      const start = process.hrtime.bigint(); // nanoseconds
+      const start = process.hrtime.bigint(); // ns
 
-      // register event
       if (event.once) {
         emitter.once(name, (...args) => event.execute(...args, client));
       } else {
@@ -19,7 +18,7 @@ module.exports = (client) => {
       }
 
       const end = process.hrtime.bigint();
-      const durationMs = Number(end - start) / 1_000_000; // convert to Number in ms
+      const durationMs = Number(end - start) / 1000000; // Convert to MS
 
       client.fastLog(`${folder} Event`, color, name, durationMs);
     };
