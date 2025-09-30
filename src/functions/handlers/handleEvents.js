@@ -5,44 +5,40 @@ module.exports = (client) => {
   client.handleEvents = async () => {
     const eventFolders = readdirSync("./src/events");
 
+    const registerEvent = (emitter, event, folder) => {
+      const name = event.name;
+      const color = event.color ?? white;
+
+      const start = process.hrtime.bigint(); // nanoseconds
+
+      // register event
+      if (event.once) {
+        emitter.once(name, (...args) => event.execute(...args, client));
+      } else {
+        emitter.on(name, (...args) => event.execute(...args, client));
+      }
+
+      const end = process.hrtime.bigint();
+      const durationMs = Number(end - start) / 1_000_000; // convert to Number in ms
+
+      client.fastLog(`${folder} Event`, color, name, durationMs);
+    };
+
     for (const folder of eventFolders) {
       const eventFiles = readdirSync(`./src/events/${folder}`).filter((file) =>
         file.endsWith(".js")
       );
 
       for (const file of eventFiles) {
-        const start = Math.floor(Date.now());
         const event = require(`../../events/${folder}/${file}`);
-        let color = event.color === undefined ? white : event.color;
-        let name = event.name;
 
-        switch (folder) {
-          case "Client":
-            if (event.once) {
-              client.once(name, (...args) => event.execute(...args, client));
-              client.fastLog(`${folder} Event`, color, name, start);
-              break;
-            }
-
-            client.on(name, (...args) => event.execute(...args, client));
-            client.fastLog(`${folder} Event`, color, name, start);
-            break;
-          case "SQL":
-            // if (event.once) {
-            //   client.connection.once(name, (...args) =>
-            //     event.execute(...args, client)
-            //   );
-            // }
-
-            // client.connection.on(name, (...args) =>
-            //   event.execute(...args, client)
-            // );
-            // client.fastLog(`${folder} Event`, color, name, start);
-            break;
-          default:
-            console.error(`Unknown event folder: ${folder}`);
-            break;
+        const target = event.type === "SQL" ? client.connection : client;
+        if (!target) {
+          console.error(`Unknown event target for ${file} in folder ${folder}`);
+          continue;
         }
+
+        registerEvent(target, event, folder);
       }
     }
   };
