@@ -60,24 +60,22 @@ client.commandArray = [];
 const funcFolders = readdirSync("./src/functions");
 
 const loadOrder = ["tools", "gmod", "wfm", "handlers"]; // Define the desired load order
+const excludedFiles = new Set(["manageSettings.js"]); // Files to exclud
 
 for (const folder of loadOrder) {
-  if (funcFolders.includes(folder)) {
-    // If the file is manageSettings.js, skip it
-    const funcFiles = readdirSync(`./src/functions/${folder}`).filter((file) =>
-      file.endsWith(".js")
-    );
+  if (!funcFolders.includes(folder)) continue;
 
-    for (const file of funcFiles) {
-      if (file === "manageSettings.js") continue;
-      require(`./functions/${folder}/${file}`)(client);
-    }
+  const funcFiles = readdirSync(`./src/functions/${folder}`).filter((file) =>
+    file.endsWith(".js") && !excludedFiles.has(file)
+  );
+
+  for (const file of funcFiles) {
+    require(`./functions/${folder}/${file}`)(client);
   }
 }
 
 client.handleCommands().then(async () => {
   await client.handleEvents();
-
   await client.wfmlogin();
   await client.getWFMItems();
 });
