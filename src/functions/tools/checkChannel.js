@@ -25,12 +25,13 @@ module.exports = async (client) => {
     const firstItem = data.items[0];
     const { title, link, id: fullId, author } = firstItem;
 
+    console.log(firstItem)
     const videoId = fullId.replace("yt:video:", "");
 
     console.log(`Video ID: ${videoId}`);
     console.log(`Video Title: ${title}`);
     console.log(`Video Link: ${link}`);
-    console.log(`Video Author: ${author?.name || "Unknown"}`);
+    console.log(`Video Author: ${author || "Unknown"}`);
 
     const existing = await client.query("SELECT ID FROM videos WHERE ID = ?", [
       fullId,
@@ -49,7 +50,7 @@ module.exports = async (client) => {
         fullId,
         channelID,
         title,
-        author?.name || "Unknown",
+        author || "Unknown",
         link,
         `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
         `https://www.youtube.com/channel/${channelID}`,
@@ -60,10 +61,10 @@ module.exports = async (client) => {
     );
 
     if (insert.affectedRows > 0) {
-      const newRow = await client.query("SELECT ID FROM videos WHERE ID = ?", [
+      const newRow = await client.query("SELECT ID, author FROM videos WHERE ID = ?", [
         fullId,
       ]);
-      return newRow[0]?.ID || false;
+      return [newRow[0]?.ID || false, newRow[0]?.author || "Unknown"];
     }
 
     return false;

@@ -13,15 +13,19 @@ module.exports = {
     .addStringOption((option) =>
       option
         .setName("channelid")
-        .setDescription("The ID of the channel to clear messages from.")
+        .setDescription("Select the channel to check for new videos.")
         .setRequired(true)
+        .addChoices(
+          { name: "PrinceOfCookies", value: "UCY4tt2c2QaqlJpA-x0PmPYg" },
+          { name: "Lifeline", value: "UCEG5VK8Qi_aiqgGypC-fEWw" }
+        )
     ),
   async execute(interaction, client) {
     const { options } = interaction;
 
     const channelId = options.getString("channelid");
 
-    let vidID = await client.checkChannel(channelId);
+    let [vidID, author] = await client.checkChannel(channelId);
     if (!vidID) {
       return interaction.reply({
         content: "No new video found for this channel.",
@@ -30,7 +34,7 @@ module.exports = {
     }
 
     const embed = new EmbedBuilder()
-      .setTitle("New Video Found!")
+      .setTitle(`New Video Found for ${author}!`)
       .setDescription(
         `A new video has been found for the channel with ID: ${channelId}`
       )
