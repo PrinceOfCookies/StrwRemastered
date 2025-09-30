@@ -30,12 +30,11 @@ const client = new Client({
         name: "& Writing",
         type: ActivityType.Watching,
         state: "📝 logs",
-        url: "https://strw.club/",
+        url: "https://princeofcookies.com/dash",
       },
     ],
     status: "online",
     afk: false,
-    shardId: 0,
   },
   allowedMentions: {
     parse: ["users", "roles"],
@@ -65,8 +64,8 @@ const excludedFiles = new Set(["manageSettings.js"]); // Files to exclud
 for (const folder of loadOrder) {
   if (!funcFolders.includes(folder)) continue;
 
-  const funcFiles = readdirSync(`./src/functions/${folder}`).filter((file) =>
-    file.endsWith(".js") && !excludedFiles.has(file)
+  const funcFiles = readdirSync(`./src/functions/${folder}`).filter(
+    (file) => file.endsWith(".js") && !excludedFiles.has(file)
   );
 
   for (const file of funcFiles) {
