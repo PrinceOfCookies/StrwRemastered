@@ -18,7 +18,7 @@ module.exports = {
     }
     
     const guildmembers = interaction.guild.memberCount;
-    const bans = await member.guild.bans.fetch();
+    const bans = await interaction.guild.bans.fetch();
     const bannedusers = bans.size;
 
     await client.query(
@@ -27,6 +27,10 @@ module.exports = {
     );
     await sendRequest("userCount", guildmembers);
     await sendRequest("bannedUsers", bannedusers);
+
+    await interaction.reply({
+      content: "IT HAS BEEN DONE!"
+    })
   },
   color: "#DEADED",
   allowRoles: ["1120733358784266302"], // GA Role
