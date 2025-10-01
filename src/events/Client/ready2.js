@@ -1,5 +1,5 @@
 module.exports = {
-  name: "ready",
+  name: "clientReady",
   async execute() {
     setInterval(async () => {
       try {

@@ -1,7 +1,7 @@
 const { greenBright } = require("chalk");
 
 module.exports = {
-  name: "ready",
+  name: "clientReady",
   once: true,
   async execute(client) {
     const users = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0);
