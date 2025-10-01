@@ -58,6 +58,24 @@ module.exports = {
         // Execute command
         await command.execute(interaction, client);
         await client.incrementCommandRun(user.id, commandName);
+        let curCommandsRan = await client.query(
+          `SELECT commandsRan FROM server WHERE id = ?`,
+          [interaction.guild.id]
+        );
+        let commandsRan = curCommandsRan[0].commandsRan;
+        commandsRan++;
+        await client.query(`UPDATE server SET commandsRan = ? WHERE id = ?`, [
+          commandsRan,
+          interaction.guild.id,
+        ]);
+        await fetch("https://princeofcookies.com/api/v1/bot/stats", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.BOT_TOKEN}`,
+          },
+          body: JSON.stringify({ type: "commandsRan", amount: commandsRan }),
+        });
       } catch (error) {
         console.error(error);
         return await interaction.reply({

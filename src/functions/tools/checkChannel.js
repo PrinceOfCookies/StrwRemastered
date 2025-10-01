@@ -58,7 +58,7 @@ module.exports = async (client) => {
         JSON.stringify([]),
         JSON.stringify([]),
       ]
-    );
+    )
 
     if (insert.affectedRows > 0) {
       const newRow = await client.query("SELECT ID, author FROM videos WHERE ID = ?", [
