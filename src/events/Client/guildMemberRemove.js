@@ -1,4 +1,4 @@
-modules.exports = {
+module.exports = {
   name: "guildMemberRemove",
   async execute(member, client) {
     if (!member.guild.id === "1120733358394200166") return;
