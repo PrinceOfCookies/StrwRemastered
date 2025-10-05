@@ -12,12 +12,12 @@ module.exports = {
     ),
   async execute(interaction) {
     const text = interaction.options.getString("text");
+    const url = `https://api.qrserver.com/v1/create-qr-code/?size=1024x1024&data=${encodeURIComponent(
+      text
+    )}`;
 
     await interaction.reply({
-      content: `https://api.qrserver.com/v1/create-qr-code/?size=1024x1024&data=${text.replace(
-        new RegExp(" ", "g"),
-        "%20"
-      )}`,
+      content: url,
       flags: MessageFlags.Ephemeral,
     });
   },
