@@ -13,13 +13,6 @@ module.exports = {
   async execute(interaction) {
     const McName = interaction.options.getString("name");
 
-    if (McName == null) {
-      return await interaction.reply({
-        content: "Name is null, please try again.",
-        flags: MessageFlags.Ephemeral,
-      });
-    }
-
     let embed = new EmbedBuilder()
       .setTitle(`📁・${McName}`)
       .setImage(`https://minotar.net/armor/body/${McName}/700.png`)

@@ -13,13 +13,6 @@ module.exports = {
   async execute(interaction) {
     const ip = interaction.options.getString("ip");
 
-    if (ip == null) {
-      return await interaction.reply({
-        content: "IP is null, please try again.",
-        flags: MessageFlags.Ephemeral,
-      });
-    }
-
     let request = await fetch(`https://api.mcsrvstat.us/2/${ip}`);
     let json = await request.json();
 

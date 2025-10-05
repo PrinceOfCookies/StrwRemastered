@@ -13,13 +13,6 @@ module.exports = {
   async execute(interaction) {
     const binary = interaction.options.getString("binary");
 
-    if (binary == null) {
-      return await interaction.reply({
-        content: "Text is null, please try again.",
-        flags: MessageFlags.Ephemeral,
-      });
-    }
-
     if (isNaN(parseInt(binary))) {
       return await interaction.reply({
         content: "Text is not binary, please try again.",
@@ -27,12 +20,11 @@ module.exports = {
       });
     }
 
-    const decoded = binary
-      .split(" ")
-      .map((x) => String.fromCharCode(parseInt(x, 2)))
-      .join("");
+    const decoded = String.fromCharCode(
+      ...binary.split(" ").map(bin => parseInt(bin, 2))
+    );
 
-    let embed = new EmbedBuilder()
+    const embed = new EmbedBuilder()
       .setTitle(`Successfully encoded to binary!`)
       .setDescription(" ")
       .addFields(

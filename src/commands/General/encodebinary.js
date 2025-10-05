@@ -1,10 +1,10 @@
-const { SlashCommandBuilder, MessageFlags } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("encodebin") 
+    .setName("encodebin")
     .setDescription("Encode text to binary")
-    .addStringOption((option) =>
+    .addStringOption(option =>
       option
         .setName("text")
         .setDescription("The text to encode")
@@ -12,22 +12,13 @@ module.exports = {
     ),
   async execute(interaction) {
     const text = interaction.options.getString("text");
-
-    if (text == null) {
-      return await interaction.reply({
-        content: "Text is null, please try again.",
-        flags: MessageFlags.Ephemeral,
-      });
-    }
-
-    const encoded = text
-      .split("")
-      .map((x) => x.charcodeAt(0).toString(2))
+    
+    const encoded = [...text]
+      .map(char => char.charCodeAt(0).toString(2).padStart(8, "0"))
       .join(" ");
 
-    let embed = new EmbedBuilder()
-      .setTitle(`Successfully encoded to binary!`)
-      .setDescription(" ")
+    const embed = new EmbedBuilder()
+      .setTitle("Successfully encoded to binary!")
       .addFields(
         {
           name: "📁 ┇ Input",
@@ -41,14 +32,7 @@ module.exports = {
         }
       );
 
-    return await interaction.reply({
-      embeds: [embed],
-    });
+    return interaction.reply({ embeds: [embed] });
   },
   color: "#DEADED",
 };
-
-// Credit to: https://github.com/Uo1428/ALL-IN-ONE-Discord-Bot-/blob/main
-// Path: src/commands/tools/encode.js
-
-// Basically stole their code.. just used my handler
