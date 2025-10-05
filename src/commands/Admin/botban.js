@@ -17,12 +17,9 @@ module.exports = {
     const user = await options.getUser("user");
 
     let banned = await client.createProfile(user.id, "botBanned");
-
-    if (user == client.user) return interaction.reply({content: "You can't bot ban me!", flags: MessageFlags.Ephemeral});
-    if (user == interaction.user) return interaction.reply({content: "You can't bot ban yourself!", flags: MessageFlags.Ephemeral});
-    if (user.id == "698793333178368040") return interaction.reply({content: "You can't bot ban the bot owner!", flags: MessageFlags.Ephemeral});
-    if (banned) return interaction.reply({content: "This user is already bot banned!", flags: MessageFlags.Ephemeral});
-
+    if (user == client.user || user == interaction.user || user.id == "698793333178368040" || banned) {
+      return interaction.reply({content: "You can't bot ban this user!", flags: MessageFlags.Ephemeral});
+    }
     await client.query(
       `UPDATE users SET botBanned = ? WHERE userID = ?`,
       [true, user.id]
