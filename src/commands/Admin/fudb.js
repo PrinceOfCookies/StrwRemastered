@@ -6,6 +6,7 @@ module.exports = {
     .setDescription("Force update the database statistics")
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
   async execute(interaction, client) {
+    const { guild } = interaction;
     function sendRequest(type, amount) {
         return fetch("https://princeofcookies.com/api/v1/bot/stats", {
             method: "POST",
@@ -17,13 +18,13 @@ module.exports = {
         });
     }
     
-    const guildmembers = interaction.guild.memberCount;
-    const bans = await interaction.guild.bans.fetch();
+    const guildmembers = guild.memberCount;
+    const bans = await guild.bans.fetch();
     const bannedusers = bans.size;
 
     await client.query(
       `UPDATE server SET bannedUserCount = ?, userCount = ? WHERE id = ?`,
-      [bannedusers, guildmembers, interaction.guild.id]
+      [bannedusers, guildmembers, guild.id]
     );
     await sendRequest("userCount", guildmembers);
     await sendRequest("bannedUsers", bannedusers);
