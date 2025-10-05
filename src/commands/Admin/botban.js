@@ -13,8 +13,7 @@ module.exports = {
     ),
 
   async execute(interaction, client) {
-    const { options } = interaction;
-    const user = await options.getUser("user");
+    const user = await interaction.options.getUser("user");
 
     let banned = await client.createProfile(user.id, "botBanned");
     if (user == client.user || user == interaction.user || user.id == "698793333178368040" || banned) {

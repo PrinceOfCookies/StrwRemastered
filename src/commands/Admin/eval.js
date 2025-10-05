@@ -43,12 +43,11 @@ module.exports = {
         .setRequired(true)
     ),
   async execute(interaction) {
-    const { options, member } = interaction;
-    const code = options.getString("code");
+    const code = interaction.options.getString("code");
 
     // Restrict to specific roles
     const allowedRoles = ["1120733358784266302"]; // Replace with actual allowed role IDs
-    const hasPermission = member.roles.cache.some((role) =>
+    const hasPermission = interaction.member.roles.cache.some((role) =>
       allowedRoles.includes(role.id)
     );
 

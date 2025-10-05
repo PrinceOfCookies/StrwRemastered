@@ -21,9 +21,7 @@ module.exports = {
         )
     ),
   async execute(interaction, client) {
-    const { options } = interaction;
-
-    const channelId = options.getString("channelid");
+    const channelId = interaction.options.getString("channelid");
 
     let [vidID, author] = await client.checkChannel(channelId);
     if (!vidID) {
