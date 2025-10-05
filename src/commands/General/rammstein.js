@@ -1,5 +1,4 @@
-const { SlashCommandBuilder, MessageFlags } = require("discord.js");
-const chalk = require("chalk");
+const { SlashCommandBuilder } = require("discord.js");
 
 const songs = {
   benzin: "https://www.youtube.com/watch?v=z0wK6s-6cbo",

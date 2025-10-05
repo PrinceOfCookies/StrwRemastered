@@ -19,9 +19,7 @@ module.exports = {
         .setMaxValue(100) // Max value is 100
     ),
   async execute(interaction) {
-    const { options } = interaction;
-
-    const amount = options.getInteger("amount");
+    const amount = interaction.options.getInteger("amount");
 
     const purge = new EmbedBuilder().setColor("5FB041");
     await channel.bulkDelete(amount, true).then((messages) => {

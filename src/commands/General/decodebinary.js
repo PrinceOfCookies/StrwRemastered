@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, MessageFlags } = require("discord.js");
-const chalk = require("chalk");
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("decodebin") 

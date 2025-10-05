@@ -1,6 +1,4 @@
 const { SlashCommandBuilder, MessageFlags, EmbedBuilder } = require("discord.js");
-const chalk = require("chalk");
-const { default: axios } = require("axios");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -22,10 +20,8 @@ module.exports = {
       });
     }
 
-    // use axios to get the data from api.mcsrvstat.us/2/ip
-
-    let request = await axios.get(`https://api.mcsrvstat.us/2/${ip}`);
-    let json = request.data;
+    let request = await fetch(`https://api.mcsrvstat.us/2/${ip}`);
+    let json = await request.json();
 
     if (!json.players) {
       return await interaction.reply({
@@ -60,7 +56,6 @@ module.exports = {
         },
         {
           name: "📁┇Mod count",
-          // Get the length of the mods.names array
           value: `${json.mods.names.length}`,
           inline: true,
         }

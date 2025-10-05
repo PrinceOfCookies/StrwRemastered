@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, MessageFlags, EmbedBuilder } = require("discord.js");
-const fs = require("fs");
-const path2 = "src/json/wfm_item_orders.json";
+const itemOrderPath = "src/json/wfm_item_orders.json";
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -91,8 +90,6 @@ module.exports = {
 
         await client.getWFMItems();
 
-        //
-
         await interaction.reply({
           content: "Successfully updated the item list",
           flags: MessageFlags.Ephemeral,
@@ -102,8 +99,7 @@ module.exports = {
         let choice = interaction.options.getString("item");
         await client.getItemOrders(choice);
 
-        // Now get the file and the information from it, get the top 10 cheapest (from people online, then people offline, then more expensive) and put it in an embed
-        let orders = JSON.parse(fs.readFileSync(path2));
+        let orders = JSON.parse(fs.readFileSync(itemOrderPath));
 
         let orderEmbed = new EmbedBuilder()
           .setTitle(`📁・${choice}`)

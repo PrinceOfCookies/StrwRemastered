@@ -1,6 +1,4 @@
-const { SlashCommandBuilder, MessageFlags, EmbedBuilder, version } = require("discord.js");
-const moment = require("moment");
-const m = require("moment-duration-format");
+const { SlashCommandBuilder, EmbedBuilder, version } = require("discord.js");
 const os = require("os");
 
 const colors = [
@@ -10,48 +8,37 @@ const colors = [
   "#FFD700", "#FFFF00", "#ADFF2F", "#00FF00",
 ];
 
+function randomColor() {
+  return colors[Math.floor(Math.random() * colors.length)];
+}
+
+function formatDuration(ms) {
+  const sec = Math.floor(ms / 1000);
+  const days = Math.floor(sec / 86400);
+  const hrs = Math.floor((sec % 86400) / 3600);
+  const mins = Math.floor((sec % 3600) / 60);
+  const secs = sec % 60;
+  return `${days}d ${hrs}h ${mins}m ${secs}s`;
+}
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("status") 
     .setDescription("status someone"),
   async execute(interaction, client) {
-    function randomColor() {
-      return colors[Math.floor(Math.random() * colors.length - 1)];
-    }
-
-    const uptime = moment.duration(client.uptime);
+    const uptime = formatDuration(client.uptime);
     const embed = new EmbedBuilder()
       .setTitle("Status: ONLINE")
       .setColor(randomColor())
       .addFields(
-        { name: "👾 DJS Version", value: version, inline: false },
-        { name: "🤖 Node Version", value: process.version, inline: false },
-        {
-          name: "⌚️ Uptime",
-          value: uptime.format(" D [days], H [hrs], m [mins], s [secs]"),
-          inline: false,
-        },
-        {
-          name: "Memory Usage",
-          value: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} / ${(os.totalmem() / 1024 / 1024).toFixed(2)} MB`,
-          inline: false,
-        },
-        {
-          name: "💻 OS",
-          value: `${os.platform()} ${os.arch()}`,
-          inline: false,
-        },
-        {
-          name: "CPU",
-          value: `\`\`\`md\n${os.cpus().map((i) => `${i.model}`)[0]}\`\`\``,
-          inline: false,
-        },
-        { name: "API Latency", value: `${client.ws.ping}ms`, inline: false },
-        {
-          name: "Client Ping",
-          value: `${Date.now() - interaction.createdTimestamp}ms`,
-          inline: false,
-        }
+        { name: "👾 DJS Version", value: version, inline: true },
+        { name: "🤖 Node Version", value: process.version, inline: true },
+        { name: "⌚ Uptime", value: uptime, inline: false },
+        { name: "🧠 Memory Usage", value: `${memUsed} / ${memTotal} MB`, inline: false },
+        { name: "💻 OS", value: `${os.type()} ${os.release()} (${os.arch()})`, inline: false },
+        { name: "⚙️ CPU", value: `\`\`\`md\n${cpuModel}\`\`\``, inline: false },
+        { name: "🌐 API Latency", value: `${client.ws.ping}ms`, inline: true },
+        { name: "📡 Client Ping", value: `${Date.now() - interaction.createdTimestamp}ms`, inline: true },
       );
 
     return await interaction.reply({

@@ -1,5 +1,4 @@
-const { SlashCommandBuilder, MessageFlags } = require("discord.js");
-const chalk = require("chalk");
+const { SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()

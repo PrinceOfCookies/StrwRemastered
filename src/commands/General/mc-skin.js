@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, MessageFlags, EmbedBuilder } = require("discord.js");
-const chalk = require("chalk");
+
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("mcskin") 
