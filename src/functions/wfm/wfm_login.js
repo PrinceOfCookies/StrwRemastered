@@ -15,12 +15,12 @@ module.exports = async (client) => {
     };
 
     try {
-      let response = await client.http(
-        "https://api.warframe.market/v1/auth/signin",
-        "POST",
+      let res = await fetch("https://api.warframe.market/v1/auth/signin", {
+        method: "POST",
         headers,
         body
-      );
+      });
+      let response = await res.json();
 
       console.log(
         chalk.greenBright(

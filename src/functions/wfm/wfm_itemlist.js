@@ -5,11 +5,8 @@ const path = "src/json/wfm_items.json";
 module.exports = async (client) => {
   client.getWFMItems = async () => {
     try {
-      const result = await client.http(
-        "https://api.warframe.market/v1/items",
-        "GET",
-        { timeout: 5000 }
-      );
+      const response = await fetch("https://api.warframe.market/v1/items", { method: "GET", timeout: 5000 });
+      const result = await response.json();
 
       if (!result.payload || !result.payload.items) {
         throw new Error("Invalid response format");
