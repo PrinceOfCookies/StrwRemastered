@@ -1,34 +1,27 @@
-const {
-  SlashCommandBuilder,
-  PermissionFlagsBits,
-  EmbedBuilder,
-  MessageFlags
-} = require("discord.js");
+const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("purge") 
+    .setName("purge")
     .setDescription("Clear a specific amount of messages from a channel.")
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
-    .addIntegerOption((option) =>
+    .addIntegerOption(option =>
       option
         .setName("amount")
         .setDescription("Amount of messages to clear.")
         .setRequired(true)
-        .setMinValue(1) // Min value is 1
-        .setMaxValue(100) // Max value is 100
+        .setMinValue(1)
+        .setMaxValue(100)
     ),
   async execute(interaction) {
     const amount = interaction.options.getInteger("amount");
+    const channel = interaction.channel;
 
-    const purge = new EmbedBuilder().setColor("5FB041");
-    await channel.bulkDelete(amount, true).then((messages) => {
-      purge.setDescription(
-        `Succesfully deleted ${messages.size} messages from the channel.`
-      );
-      interaction.reply({ embeds: [purge], flags: MessageFlags.Ephemeral });
+    channel.bulkDelete(amount, true).then(messages => {
+      interaction.reply({
+        content: `Deleted ${messages.size} messages.`,
+        flags: MessageFlags.Ephemeral
+      });
     });
-  },
-  color: "#DEADED",
-  allowRoles: ["1120733358784266302"], // GA Role
+  }
 };

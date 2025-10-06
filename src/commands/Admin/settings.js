@@ -1,35 +1,37 @@
-const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require("discord.js");
+const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require("js");
+
+const SETTING_RIDDLES_SERVER = 0;
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName("setting") 
+    .setName("setting")
     .setDescription("Change/Get bot settings")
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
-    .addSubcommand((subcommand) =>
-      subcommand
+    .addSubcommand((sub) =>
+      sub
         .setName("get")
         .setDescription("Get a setting")
-        .addStringOption((option) =>
-          option
+        .addIntegerOption((opt) =>
+          opt
             .setName("setting")
             .setDescription("The setting to get")
             .setRequired(true)
-            .addChoices({ name: "Riddles Server", value: "riddlesServer" })
+            .addChoices({ name: "Riddles Server", value: SETTING_RIDDLES_SERVER })
         )
     )
-    .addSubcommand((subcommand) =>
-      subcommand
+    .addSubcommand((sub) =>
+      sub
         .setName("set")
         .setDescription("Set a setting")
-        .addStringOption((option) =>
-          option
+        .addIntegerOption((opt) =>
+          opt
             .setName("setting")
             .setDescription("The setting to set")
             .setRequired(true)
-            .addChoices({ name: "Riddles Server", value: "riddlesServer" })
+            .addChoices({ name: "Riddles Server", value: SETTING_RIDDLES_SERVER })
         )
-        .addBooleanOption((option) =>
-          option
+        .addBooleanOption((opt) =>
+          opt
             .setName("value")
             .setDescription("The value to set the setting to")
             .setRequired(true)
@@ -39,33 +41,25 @@ module.exports = {
   async execute(interaction, client) {
     const options = interaction.options;
     const subcommand = options.getSubcommand();
+    const setting = options.getInteger("setting");
 
-    const setting = options.getString("setting");
+    if (subcommand === "get" && setting === SETTING_RIDDLES_SERVER) {
+      const riddlesServer = await client.getSetting("riddlesServer");
+      return interaction.reply({
+        content: `Riddles Server: ${riddlesServer}`,
+        flags: MessageFlags.Ephemeral
+      });
+    }
 
-    switch (subcommand) {
-      case "get":
-        if (setting === "riddlesServer") {
-          const riddlesServer = await client.getSetting("riddlesServer");
-          return interaction.reply({
-            content: `Riddles Server: ${riddlesServer}`,
-            flags: MessageFlags.Ephemeral
-          });
-        }
-
-        break;
-      case "set":
-        if (setting === "riddlesServer") {
-          const value = Number(options.getBoolean("value"));
-          
-          await client.setSetting("riddlesServer", value);
-          return interaction.reply({
-            content: `Riddles Server set to ${value}`,
-            flags: MessageFlags.Ephemeral
-          });
-        }
-        break;
+    if (subcommand === "set" && setting === SETTING_RIDDLES_SERVER) {
+      const value = Number(options.getBoolean("value"));
+      await client.setSetting("riddlesServer", value);
+      return interaction.reply({
+        content: `Riddles Server set to ${value}`,
+        flags: MessageFlags.Ephemeral
+      });
     }
   },
   color: "#DEADED",
-  allowRoles: ["1137095530669932665"], // Strawhat OW Role
+  allowRoles: ["1137095530669932665"],
 };
