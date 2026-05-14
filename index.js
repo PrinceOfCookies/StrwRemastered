@@ -1,6 +1,7 @@
 const { ActivityType, GatewayIntentBits } = require("discord.js");
 
 module.exports = {
+	enabled: true,
 	envFile: ".env",
 	tokenEnv: "TOKEN",
 

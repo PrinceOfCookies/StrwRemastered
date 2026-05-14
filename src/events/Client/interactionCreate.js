@@ -9,6 +9,14 @@ const {
 module.exports = {
   name: "interactionCreate",
   async execute(interaction, client) {
+    async function replySafe(payload) {
+      if (interaction.deferred || interaction.replied) {
+        return interaction.followUp(payload);
+      }
+
+      return interaction.reply(payload);
+    }
+
     if (interaction.isChatInputCommand()) {
       const { commands } = client;
       const { commandName, user } = interaction;
@@ -58,12 +66,11 @@ module.exports = {
         // Execute command
         await command.execute(interaction, client);
         await client.incrementCommandRun(user.id, commandName);
-        let curCommandsRan = await client.query(
+        const curCommandsRan = await client.query(
           `SELECT commandsRan FROM server WHERE id = ?`,
           [interaction.guild.id]
         );
-        let commandsRan = curCommandsRan[0].commandsRan;
-        commandsRan++;
+        const commandsRan = Number(curCommandsRan[0]?.commandsRan ?? 0) + 1;
         await client.query(`UPDATE server SET commandsRan = ? WHERE id = ?`, [
           commandsRan,
           interaction.guild.id,
@@ -78,7 +85,7 @@ module.exports = {
         });
       } catch (error) {
         console.error(error);
-        return await interaction.reply({
+        return await replySafe({
           content: "Something went wrong while executing this command!",
           flags: MessageFlags.Ephemeral,
         });

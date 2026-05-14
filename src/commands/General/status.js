@@ -27,6 +27,9 @@ module.exports = {
     .setDescription("status someone"),
   async execute(interaction, client) {
     const uptime = formatDuration(client.uptime);
+    const memTotal = Math.round(os.totalmem() / 1024 / 1024);
+    const memUsed = Math.round(process.memoryUsage().rss / 1024 / 1024);
+    const cpuModel = os.cpus()?.[0]?.model || "Unknown CPU";
     const embed = new EmbedBuilder()
       .setTitle("Status: ONLINE")
       .setColor(randomColor())
