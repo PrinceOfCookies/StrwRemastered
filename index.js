@@ -48,6 +48,8 @@ module.exports = {
 
 	functions: {
 		mode: "extend",
+		exclude: ["handleCommands.js"],
+
 		manual: [
 			"manageSettings.js",
 			"serverConfig.js",
@@ -63,7 +65,7 @@ module.exports = {
 	autoHandleCommands: true,
 
 	// Host event loader loads src/events directly, so don't also run old handleEvents.
-	autoHandleEvents: false,
+	autoHandleEvents: true,
 
 	async afterLogin(client) {
 		const manageSettingsPath = client.resolveBotPath(
