@@ -28,7 +28,7 @@ module.exports = {
       user.id === OWNER_ID ||
       (await client.createProfile(user.id, "botBanned"))
     ) {
-      interaction.reply({
+      await interaction.reply({
         content: "You can't bot ban this user!",
         flags: MessageFlags.Ephemeral,
       });
@@ -40,7 +40,7 @@ module.exports = {
       user.id,
     ]);
 
-    interaction.reply({
+    await interaction.reply({
       content: "Bot banned " + user.tag + " by " + interaction.user.username,
     });
   },
