@@ -12,7 +12,7 @@
 - [`client.incrementCommandRun`](https://github.com/PrinceOfCookies/blob/master/src/functions/tools/incrementCommandRun.js): This function runs a query increment a number in the database and update the amount of times a command has been ran.
 - [`client.getSetting`](https://github.com/PrinceOfCookies/blob/master/src/functions/tools/manageSettings.js): This function is used to.. well do exactly what the function says, it gets the setting thats requested.
 - [`client.setSetting`](https://github.com/PrinceOfCookies/blob/master/src/functions/tools/manageSettings.js): Once again, does what the function name says, sets the setting to the requested thing. (Settings is currently a work in progress feature)
-- [`client.query`](https://github.com/PrinceOfCookies/blob/master/src/functions/tools/query.js): This function is used to query the database in a promise.
+- [`client.query`](https://github.com/PrinceOfCookies/blob/master/src/functions/tools/query.js): This shared function is used to query the database in a promise.
 
 ### Warframe Market (WFM) Functions
 - [`wfm_login`](https://github.com/PrinceOfCookies/StrwRemastered/blob/master/src/functions/tools/wfm/wfm_login.js): Logs into the Warframe Market using provided credentials. It manages authentication and session handling to enable interaction with the WFM API.
