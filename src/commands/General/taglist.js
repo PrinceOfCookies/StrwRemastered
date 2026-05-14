@@ -7,14 +7,8 @@ module.exports = {
     .setDescription("Command to list the tags"),
 
   async execute(interaction, client) {
-    await client.query("SELECT * FROM tags", async (err, data) => {
-      if (err) {
-        console.error(chalk.red("Error fetching tags: "), err);
-        return await interaction.reply({
-          content: "An error occurred while fetching the tags.",
-          ephemeral: true,
-        });
-      }
+    try {
+      const data = await client.query("SELECT * FROM tags");
 
       let description = "";
 
@@ -30,12 +24,21 @@ module.exports = {
           dat.createdBy +
           ">\n";
       }
-      TagList.setDescription(description);
+
+      if (description) {
+        TagList.setDescription(description);
+      }
 
       return await interaction.reply({
         embeds: [TagList],
       });
-    });
+    } catch (err) {
+      console.error(chalk.red("Error fetching tags: "), err);
+      return await interaction.reply({
+        content: "An error occurred while fetching the tags.",
+        ephemeral: true,
+      });
+    }
   },
   cooldown: 30,
   color: "#DEADED",
