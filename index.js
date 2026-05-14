@@ -46,7 +46,8 @@ module.exports = {
 	},
 
 	functions: {
-		mode: "replace",
+		mode: "extend",
+		exclude: ["handleCommands.js"],
 
 		manual: [
 			"manageSettings.js",
