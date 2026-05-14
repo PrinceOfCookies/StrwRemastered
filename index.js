@@ -48,8 +48,6 @@ module.exports = {
 
 	functions: {
 		mode: "extend",
-		exclude: ["handleCommands.js"],
-
 		manual: [
 			"manageSettings.js",
 			"serverConfig.js",
