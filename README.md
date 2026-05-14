@@ -20,9 +20,9 @@ StrwRemastered is the Strawhat Discord bot that runs under the MasterBot host.
 
 - `client.checkChannel` checks a YouTube channel and stores the latest upload
 - `client.createProfile` creates or fetches a user profile
-- `client.fastLog` prints short timing logs
+- `client.fastLog` prints short timing logs and comes from MasterBot
 - `client.getSetting` and `client.setSetting` read and write bot settings
-- `client.http` is a fetch helper
+- `client.http` is a shared fetch helper from MasterBot
 - `client.incrementCommandRun` updates command usage counts
 
 ## Warframe Market tools
