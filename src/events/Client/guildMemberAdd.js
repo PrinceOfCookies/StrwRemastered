@@ -1,7 +1,7 @@
 module.exports = {
   name: "guildMemberAdd",
   async execute(member, client) {
-    if (!member.guild.id === "1120733358394200166") return;
+    if (member.guild.id !== "1120733358394200166") return;
 
     const users = client.guilds.cache.reduce((a, g) => a + g.memberCount, 0);
 
