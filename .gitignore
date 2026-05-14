@@ -1,5 +1,2 @@
 *.env
 *.gitignore
-bot.sh
-.vscode
-node_modules
