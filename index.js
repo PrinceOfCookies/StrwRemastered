@@ -50,11 +50,8 @@ module.exports = {
 		mode: "extend",
 		exclude: ["handleCommands.js"],
 
-		manual: [
-			"manageSettings.js",
-			"serverConfig.js",
-			"playerCountEmbed.js"
-		]
+		manual: ["manageSettings.js"],
+		lazy: ["serverConfig.js", "playerCountEmbed.js"]
 	},
 
 	events: {
